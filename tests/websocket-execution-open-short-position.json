@@ -1,0 +1,20 @@
+{
+	"topic": "execution",
+	"data": [
+		{
+			"symbol": "LTCUSDT",
+			"side": "Sell",
+			"order_id": "cfa08a1b-dd70-440f-ad07-602bb18c58ce",
+			"exec_id": "dabee507-df89-5343-92ca-86e5d302ecf2",
+			"order_link_id": "",
+			"price": 122.08,
+			"order_qty": 102.50001,
+			"exec_type": "Trade",
+			"exec_qty": 102.50001,
+			"exec_fee": 9.3849,
+			"leaves_qty": 0,
+			"is_maker": false,
+			"trade_time": "2022-02-17T16:04:46.665784Z"
+		}
+	]
+}

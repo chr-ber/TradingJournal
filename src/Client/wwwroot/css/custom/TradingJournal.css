@@ -1,0 +1,23 @@
+﻿.tj-text-gradient {
+    background: linear-gradient(82deg, #594ae2 0%, #ff6699 100%);
+    font-weight: bold;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.tj-selected-item {
+    border-right: 1px solid var(--mud-palette-primary);
+}
+
+/* Overrule re coloring done by chrome auto fill*/
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active,
+input:-webkit-autofill:valid,
+select:-webkit-autofill,
+select:-webkit-autofill:hover,
+select:-webkit-autofill:focus {
+    -webkit-transition-delay: 99999s;
+    -webkit-text-fill-color: #b2b0bf;
+}

@@ -1,0 +1,80 @@
+﻿@inject ITradingAccountService TradingAccountService
+
+<MudDialog>
+    <DialogContent>
+        <MudGrid>
+            <MudItem xs="12">
+
+                <MudForm @ref="_mudForm" @bind-IsValid="@_inputIsValid">
+                    <MudTextField T="string" Label="Name" Required="true" @bind-Value="_command.Name"
+                                  RequiredError="Naming your account is required!"
+                                  HelperText="When using multiple accounts, make sure to give them meaningfull names."
+                                  Placeholder="ScalpingStrategy1" />
+
+                    <MudTextField T="string" Label="API Key" Required="true" @bind-Value="_command.APIKey" />
+
+                    <MudTextField T="string" Label="API Secret" Required="true" @bind-Value="_command.APISecret" InputType="InputType.Password" />
+
+                    <MudItem Class="py-5">
+
+                        <MudText Typo="Typo.subtitle2" Color="Color.Error" Style="white-space: pre-line">@_bottomErrorField</MudText>
+
+                        @if (_isInProgress)
+                        {
+                            <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+                        }
+
+                    </MudItem>
+                </MudForm>
+
+            </MudItem>
+
+            <MudItem Class="mb-6">
+
+                <MudButton Disabled="@(!_inputIsValid)"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Class="ml-auto"
+                           OnClick="OnSubmitNewTradingAccount">Submit</MudButton>
+            </MudItem>
+        </MudGrid>
+    </DialogContent>
+</MudDialog>
+
+@code {
+
+    private bool _inputIsValid;
+    private bool _isInProgress = false;
+
+    private MudForm _mudForm;
+    private CreateTradingAccountCommand _command = new();
+
+    private string _bottomErrorField;
+
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    public async Task OnSubmitNewTradingAccount()
+    {
+        // clear any error messages
+        _bottomErrorField = String.Empty;
+        _isInProgress = true;
+
+        // add short delay to avoid spam
+        await Task.Delay(600);
+
+        var response = await TradingAccountService.AddTradingAccount(_command);
+
+        if (response.Success)
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+        }
+        else
+        {
+            _bottomErrorField = response.Message;
+
+        }
+
+        _isInProgress = false;
+    }
+}

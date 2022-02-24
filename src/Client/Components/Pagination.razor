@@ -1,0 +1,26 @@
+﻿@typeparam TItem
+
+<nav aria-label="Page Navigation">
+    <ul class="pagination user-select-none">
+        <li class="page-item @(List.HasPreviousPage ? "" : "disabled")"><button type="button" class="page-link" @onclick="@(async () => await BrowsePage(false))">Previous</button></li>
+        <li class="page-item @(List.HasNextPage ? "" : "disabled")"><button type="button" class="page-link" @onclick="@(async () => await BrowsePage(true))">Next</button></li>
+    </ul>
+    <p>Page @List.SelectedPage / @List.TotalPages</p>
+</nav>
+
+@code {
+
+    [Parameter]
+    public PaginatedList<TItem> List { get; set; }
+
+    [Parameter]
+    public Action<PaginatedList<TItem>> PaginationCall { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> PaginationCallback { get; set; }
+
+    private async Task BrowsePage(bool forward)
+    {
+        await PaginationCallback.InvokeAsync(forward);
+    }
+}

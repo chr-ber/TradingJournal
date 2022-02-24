@@ -1,0 +1,29 @@
+﻿
+<a class="d-flex align-center py-4" style="padding-left:10px;" href="/">
+    <MudIcon Icon="@Icons.Filled.Addchart" Color="Color.Success" Size="Size.Large" Style="padding:4px" />
+    <MudText Color="Color.Primary" Typo="Typo.h5" Class="tj-text-gradient ">Trading Journal</MudText>
+</a>
+
+<AuthorizeView>
+    <Authorized>
+        @*<MudPaper>*@
+            <MudNavMenu Color="Color.Success">
+                <MudNavLink Href="/dashboard">Dashboard</MudNavLink>
+                <MudNavLink Href="/trades">Trades</MudNavLink>
+                <MudNavGroup Title="Reports" Expanded="true">
+                    <MudNavLink Href="/reports/daily">Daily</MudNavLink>
+                    <MudNavLink Href="/reports/weekly">Weekly</MudNavLink>
+                    <MudNavLink Href="/reports/monthly">Monthyl</MudNavLink>
+                </MudNavGroup>
+                <MudNavLink Href="/accounts">Accounts</MudNavLink>
+            </MudNavMenu>
+        @*</MudPaper>*@
+    </Authorized>
+    <NotAuthorized>
+
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+}

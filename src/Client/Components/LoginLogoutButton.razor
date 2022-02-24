@@ -1,0 +1,30 @@
+﻿@inject ICustomAuthenticationService AuthenticationService
+@inject NavigationManager NavigationManager
+
+<AuthorizeView>
+
+    <Authorized>
+        <MudTooltip Text="Log out">
+            <MudIconButton Icon="@Icons.Material.Filled.Logout" Title="Logout" OnClick="OnLogOutRequest" />
+        </MudTooltip>
+    </Authorized>
+
+    <NotAuthorized>
+        <MudTooltip Text="Log in">
+            <a href="/login">
+                <MudIconButton Icon="@Icons.Material.Filled.Login" Title="Login" />
+            </a>
+        </MudTooltip>
+    </NotAuthorized>
+
+</AuthorizeView>
+
+@code {
+    private UserLogin _userLogin = new();
+
+    private async void OnLogOutRequest()
+    {
+        await AuthenticationService.Logout();
+        NavigationManager.NavigateTo("/");
+    }
+}

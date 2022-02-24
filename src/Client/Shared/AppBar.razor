@@ -1,0 +1,51 @@
+﻿
+<MudTooltip Text="@_toolTip">
+    <MudIconButton Icon="@Icons.Rounded.MenuOpen"
+                   OnClick="OnDrawerToggle"
+                   Color="Color.Inherit"
+                   Edge="Edge.Start"
+                   Style="@_style" />
+</MudTooltip>
+
+<MudSpacer />
+<MudSpacer />
+<AppBarButtons />
+
+@code {
+
+    private string _style = "";
+    private string _toolTip = "";
+    private bool _drawerIsOpen;
+
+    [Parameter]
+    public EventCallback<MouseEventArgs> DrawerToggleCallback { get; set; }
+
+    [Parameter]
+    public bool DrawerIsOpen {
+        get => _drawerIsOpen;
+        set
+        {
+            _drawerIsOpen = value;
+            UpdateDrawerButton();
+        }
+    }
+
+    public async Task OnDrawerToggle()
+    {
+        await DrawerToggleCallback.InvokeAsync();
+    }
+
+    // update tooltip and flip icon by 180
+    public void UpdateDrawerButton()
+    {
+        _style = DrawerIsOpen ? "opacity: 0.3;" : "transform: rotate(180deg);";
+        _toolTip = DrawerIsOpen ? "Close Menu" : "Open Menu";
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UpdateDrawerButton();
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,80 @@
+{
+	"topic": "execution",
+	"data": [
+		{
+			"symbol": "LTCUSDT",
+			"side": "Buy",
+			"order_id": "f77d1177-df48-4fa2-85d0-7807dfe95cef",
+			"exec_id": "fc220190-f923-599d-8e9c-e4b8cbc702b7",
+			"order_link_id": "",
+			"price": 122.92,
+			"order_qty": 330.1,
+			"exec_type": "Trade",
+			"exec_qty": 130,
+			"exec_fee": 11.9847,
+			"leaves_qty": 200.1,
+			"is_maker": false,
+			"trade_time": "2022-02-17T15:42:58.636211Z"
+		},
+		{
+			"symbol": "LTCUSDT",
+			"side": "Buy",
+			"order_id": "f77d1177-df48-4fa2-85d0-7807dfe95cef",
+			"exec_id": "b4e33f3d-8802-5e85-8374-eb4f62d8acdf",
+			"order_link_id": "",
+			"price": 123.03,
+			"order_qty": 330.1,
+			"exec_type": "Trade",
+			"exec_qty": 69.7,
+			"exec_fee": 6.431393,
+			"leaves_qty": 130.4,
+			"is_maker": false,
+			"trade_time": "2022-02-17T15:42:58.636211Z"
+		},
+		{
+			"symbol": "LTCUSDT",
+			"side": "Buy",
+			"order_id": "f77d1177-df48-4fa2-85d0-7807dfe95cef",
+			"exec_id": "1709833a-1487-52e2-ada9-729bf1fe7713",
+			"order_link_id": "",
+			"price": 123.04,
+			"order_qty": 330.1,
+			"exec_type": "Trade",
+			"exec_qty": 6.4,
+			"exec_fee": 0.590592,
+			"leaves_qty": 124,
+			"is_maker": false,
+			"trade_time": "2022-02-17T15:42:58.636211Z"
+		},
+		{
+			"symbol": "LTCUSDT",
+			"side": "Buy",
+			"order_id": "f77d1177-df48-4fa2-85d0-7807dfe95cef",
+			"exec_id": "bc3d4528-36cd-5b4b-89cd-04d0beece713",
+			"order_link_id": "",
+			"price": 123.04,
+			"order_qty": 330.1,
+			"exec_type": "Trade",
+			"exec_qty": 104.100006,
+			"exec_fee": 9.606348,
+			"leaves_qty": 19.9,
+			"is_maker": false,
+			"trade_time": "2022-02-17T15:42:58.636211Z"
+		},
+		{
+			"symbol": "LTCUSDT",
+			"side": "Buy",
+			"order_id": "f77d1177-df48-4fa2-85d0-7807dfe95cef",
+			"exec_id": "a0169a6e-6c07-59c7-965f-065599bb6194",
+			"order_link_id": "",
+			"price": 123.05,
+			"order_qty": 330.1,
+			"exec_type": "Trade",
+			"exec_qty": 19.9,
+			"exec_fee": 1.8365213,
+			"leaves_qty": 0,
+			"is_maker": false,
+			"trade_time": "2022-02-17T15:42:58.636211Z"
+		}
+	]
+}

@@ -1,0 +1,53 @@
+﻿@page "/trading account/add"
+
+@inject ITradingAccountService TradingAccountService
+@inject NavigationManager NavigationManager
+
+@attribute [Authorize]
+
+<h1>Trading Accounts</h1>
+
+<div class="row justify-content-start">
+    <div class="col-3">
+        <EditForm Model="_createTradingAccountCommand" OnValidSubmit="OnSubmit">
+
+            <DataAnnotationsValidator />
+
+            <div class="form-group">
+                <label for="name">Name</label>
+                <InputText id="name" @bind-Value="_createTradingAccountCommand.Name" class="form-control"></InputText>
+            </div>
+
+            <div class="form-group">
+                <label for="apikey">API Key</label>
+                <InputText id="apikey" @bind-Value="_createTradingAccountCommand.APIKey" class="form-control"></InputText>
+            </div>
+
+            <div class="form-group">
+                <label for="apisecret">API Secret</label>
+                <InputText id="apisecret" @bind-Value="_createTradingAccountCommand.APISecret" class="form-control" type="password"></InputText>
+            </div>
+
+            <button type="submit" class="btn btn-primary mt-3">Add</button>
+        </EditForm>
+
+    </div>
+</div>
+
+@code {
+    private CreateTradingAccountCommand _createTradingAccountCommand = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        await TradingAccountService.LoadTradingAccounts();
+    }
+
+    private async Task OnSubmit()
+    {
+
+        await TradingAccountService.AddTradingAccount(_createTradingAccountCommand);
+
+        //NavigationManager.NavigateTo("/trading accounts");
+    }
+
+}

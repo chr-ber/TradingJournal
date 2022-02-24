@@ -1,0 +1,28 @@
+﻿@inject UserInterfaceService UserInterfaceService
+@implements IDisposable
+
+<LoginLogoutButton/>
+
+<MudTooltip Duration="1000" Text="@(GetThemeToolTip())">
+    <MudIconButton Icon="@(GetThemeIcon())" Color="Color.Inherit" OnClick="@UserInterfaceService.ToggleDarkMode" />
+</MudTooltip>
+
+@code {
+
+    private string GetThemeIcon() =>UserInterfaceService.UseDarkMode ? Icons.Rounded.LightMode : Icons.Material.Outlined.DarkMode;
+
+    private string GetThemeToolTip() => UserInterfaceService.UseDarkMode ? "Switch to Light Theme" : "Switch to Dark Theme";
+
+    protected override void OnInitialized()
+    {
+        // Register event callback whenever the user interface changes
+        UserInterfaceService.UIChangeOccured += ((x, y) => StateHasChanged());
+        base.OnInitialized();
+    }
+
+    public void Dispose()
+    {
+        // Unregister event callback when appbarbuttons get disposed
+        UserInterfaceService.UIChangeOccured -= ((x, y) => StateHasChanged());
+    }
+}

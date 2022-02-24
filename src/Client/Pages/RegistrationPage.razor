@@ -1,0 +1,98 @@
+﻿@page "/registration"
+
+@inject ICustomAuthenticationService AuthService
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+
+<MudText Typo="Typo.h3">Registration</MudText>
+
+<EditForm Model="@_model" OnValidSubmit="OnValidRegistration">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" sm="8" lg="6" xl="4">
+
+            <MudTextField Label="Display Name"
+                          @bind-Value="@_model.DisplayName"
+                          Required="true"
+                          For="@(() => _model.DisplayName)" />
+
+            <MudTextField Label="Username"
+                          @bind-Value="@_model.Email"
+                          Required="true" For="@(() => _model.Email)"
+                          Placeholder="JohnDoe@example.com"
+                          InputType="InputType.Email"
+                          HelperText="Minimum of 8 characters" />
+
+            <MudTextField Label="Password"
+                          @bind-Value="@_model.Password"
+                          Required="true" For="@(() => _model.Password)"
+                          InputType="InputType.Password"
+                          HelperText="Choose a strong password" />
+
+            <MudTextField Label="Confirm Password"
+                          @bind-Value="@_model.ConfirmPassword"
+                          Required="true"
+                          For="@(() => _model.ConfirmPassword)"
+                          InputType="InputType.Password"
+                          HelperText="Repeat the password" />
+
+            <div class="d-flex align-center justify-space-between mt-6">
+
+                <MudCheckBox T="bool" Required="true" Class="ml-n2"
+                             @bind-Checked="@_model.TermsOfServiceAccepted"
+                             RequiredError="You must agree"
+                             Label="I agree to the"
+                             For="@(()=> _model.TermsOfServiceAccepted)" />
+
+                <MudLink @onclick="OpenDialog" Style="padding-left:5px;cursor: pointer;">Terms of Service</MudLink>
+
+                <MudButton ButtonType="ButtonType.Submit"
+                           Variant="Variant.Filled"
+                           Color="Color.Primary"
+                           Class="ml-auto"
+                           OnClick="OnRegistrationButtonPressed">Register</MudButton>
+            </div>
+
+            <MudItem xs="12" sm="5">
+                <MudText Typo="Typo.subtitle2" Color="Color.Error">@_bottomErrorField</MudText>
+            </MudItem>
+
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+@code {
+
+    private UserRegistration _model = new();
+
+    private string _bottomErrorField;
+
+    private async Task OpenDialog()
+    {
+        var result = await DialogService.Show<TermsOfServiceDialog>("Terms of Service").Result;
+
+        _model.TermsOfServiceAccepted = result.Cancelled is false;
+
+        StateHasChanged();
+    }
+
+    public void OnRegistrationButtonPressed()
+    {
+        _bottomErrorField = _model.TermsOfServiceAccepted is false ? "You must accept the ToS." : "";
+    }
+
+    async void OnValidRegistration(EditContext context)
+    {
+        var result = await AuthService.Register(_model);
+
+        if (result.Success)
+        {
+            NavigationManager.NavigateTo("/LoginPage");
+        }
+        else
+        {
+            _bottomErrorField = result.Message;
+        }
+    }
+
+}

@@ -1,0 +1,19 @@
+﻿@page "/login"
+
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject NavigationManager NavigationManager
+
+<PageTitle>Login</PageTitle>
+
+<AuthorizeView>
+    <Authorized>
+        <p>You are already logged in.</p>
+    </Authorized>
+    <NotAuthorized>
+        <LoginForm/>
+    </NotAuthorized>
+</AuthorizeView>
+
+@{
+
+}

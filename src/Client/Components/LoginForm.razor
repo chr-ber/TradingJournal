@@ -1,0 +1,71 @@
+﻿@inject ICustomAuthenticationService AuthenticationService
+@inject NavigationManager NavigationManager
+
+<MudText Typo="Typo.h3">Login</MudText>
+
+<MudGrid>
+    <MudItem xs="12" sm="8" lg="6" xl="4">
+
+        <EditForm Model="_model" OnValidSubmit="HandleLogin">
+            <DataAnnotationsValidator />
+
+            <MudTextField Label="Username"
+                          Placeholder="JohnDoe@example.com"
+                          For="@(() => _model.Email)"
+                          InputType="InputType.Email"
+                          @bind-Value="_model.Email" />
+
+            <MudTextField Label="Password"
+                          For="@(() => _model.Password)"
+                          InputType="InputType.Password"
+                          @bind-Value="_model.Password" />
+
+            <div class="d-flex align-center justify-space-between mt-6">
+
+                <MudItem xs="12" sm="5">
+                    <MudText Typo="Typo.subtitle2" Color="Color.Error">@_bottomErrorField</MudText>
+                </MudItem>
+
+                <MudButtonGroup OverrideStyles="false">
+
+                    <MudTooltip Text="Functionality under construction.">
+                        <MudButton Variant="Variant.Outlined"
+                                   Color="Color.Primary"
+                                   Disabled="true"
+                                   Class="ml-auto">Forgot Password</MudButton>
+                    </MudTooltip>
+
+                    <MudButton ButtonType="ButtonType.Submit"
+                               Variant="Variant.Filled"
+                               Color="Color.Primary"
+                               Class="ml-auto">Log In</MudButton>
+
+                </MudButtonGroup>
+
+            </div>
+
+        </EditForm>
+
+    </MudItem>
+</MudGrid>
+
+@code {
+    private UserLogin _model = new();
+
+    private string _bottomErrorField;
+
+    private async Task HandleLogin()
+    {
+        var result = await AuthenticationService.Login(_model);
+
+        if (result.Success)
+        {
+            NavigationManager.NavigateTo("/");
+        }
+        else
+        {
+            // TODO: show error message
+            _bottomErrorField = result.Message;
+        }
+    }
+}

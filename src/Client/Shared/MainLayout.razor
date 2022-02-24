@@ -1,0 +1,46 @@
+﻿@inherits LayoutComponentBase
+@inject UserInterfaceService UserInterfaceService
+
+<MudThemeProvider  Theme="@Theme.MainTheme()" IsDarkModeChanged="UserInterfaceService.SetDarkMode" IsDarkMode="@UserInterfaceService.UseDarkMode"/>
+<MudDialogProvider FullWidth="true" MaxWidth="MaxWidth.ExtraSmall" />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="1" >
+        <AppBar DrawerToggleCallback="ToggleDrawer" DrawerIsOpen="_isDrawerOpen"/>
+    </MudAppBar>
+    <MudDrawer Open="@_isDrawerOpen" Elevation="2">
+        <NavMenu/>
+    </MudDrawer>
+    <MudMainContent>
+        <div class="px-6 py-6">
+        @Body
+        </div>
+    </MudMainContent>
+</MudLayout>
+
+<BlazoredToasts Position="ToastPosition.BottomRight" />
+
+@code {
+
+    private bool _isDrawerOpen = true;
+
+    private void ToggleDrawer() => _isDrawerOpen = !_isDrawerOpen;
+
+    protected override void OnInitialized()
+    {
+        // Register event callback whenever the user interface changes
+        UserInterfaceService.UIChangeOccured += ((x, y) => StateHasChanged());
+        base.OnInitialized();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await UserInterfaceService.SetUserPreferencesFromLocalStorage();
+        }
+
+        await base.OnAfterRenderAsync(firstRender);
+    }
+}

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>TradingJournal</title>
+    <base href="/" />
+    <link href="css/bootstrap/bootstrap.min.css" rel="stylesheet" />
+    <link href="css/app.css" rel="stylesheet" />
+    <link href="_content/Blazored.Toast/blazored-toast.min.css" rel="stylesheet" />
+    <!-- mud blazor requirements -->
+    <link href="_content/MudBlazor/MudBlazor.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap" rel="stylesheet" />
+    <!-- custom css file -->
+    <link href="css/custom/TradingJournal.css" rel="stylesheet" />
+    <!-- set browser tab icon, generated via https://favicon.io/favicon-generator/ -->
+    <link rel="apple-touch-icon" sizes="180x180" href="faveicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="faveicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="faveicon/favicon-16x16.png">
+    <link rel="manifest" href="faveicon/site.webmanifest">
+</head>
+
+<body style="margin:0;padding:0">
+    <div id="app">
+        <div style="height: 100%; width: 100%; margin: 0; position: fixed; background-color: #1a1a27ff">
+            <div style="display: flex;justify-content: center;align-items:center;height:100%;width:100%;">
+
+                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="margin: auto; display: block; shape-rendering: auto;" width="200px" height="200px" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid">
+                    <g>
+                        <circle cx="60" cy="50" r="4" fill="#c56868">
+                            <animate attributeName="cx" repeatCount="indefinite" dur="1s" values="95;35" keyTimes="0;1" begin="-0.67s"></animate>
+                            <animate attributeName="fill-opacity" repeatCount="indefinite" dur="1s" values="0;1;1" keyTimes="0;0.2;1" begin="-0.67s"></animate>
+                        </circle>
+                        <circle cx="60" cy="50" r="4" fill="#c56868">
+                            <animate attributeName="cx" repeatCount="indefinite" dur="1s" values="95;35" keyTimes="0;1" begin="-0.33s"></animate>
+                            <animate attributeName="fill-opacity" repeatCount="indefinite" dur="1s" values="0;1;1" keyTimes="0;0.2;1" begin="-0.33s"></animate>
+                        </circle>
+                        <circle cx="60" cy="50" r="4" fill="#c56868">
+                            <animate attributeName="cx" repeatCount="indefinite" dur="1s" values="95;35" keyTimes="0;1" begin="0s"></animate>
+                            <animate attributeName="fill-opacity" repeatCount="indefinite" dur="1s" values="0;1;1" keyTimes="0;0.2;1" begin="0s"></animate>
+                        </circle>
+                    </g>
+                    <g transform="translate(-15 0)">
+                        <path d="M50 50L20 50A30 30 0 0 0 80 50Z" fill="#93dbe9" transform="rotate(90 50 50)"></path>
+                        <path d="M50 50L20 50A30 30 0 0 0 80 50Z" fill="#93dbe9">
+                            <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;45 50 50;0 50 50" keyTimes="0;0.5;1"></animateTransform>
+                        </path>
+                        <path d="M50 50L20 50A30 30 0 0 1 80 50Z" fill="#93dbe9">
+                            <animateTransform attributeName="transform" type="rotate" repeatCount="indefinite" dur="1s" values="0 50 50;-45 50 50;0 50 50" keyTimes="0;0.5;1"></animateTransform>
+                        </path>
+                    </g>
+                </svg>
+            </div>
+        </div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+
+    <script src="_framework/blazor.webassembly.js"></script>
+    <!-- mud blazor requirements -->
+    <script src="_content/MudBlazor/MudBlazor.min.js"></script>
+</body>
+
+</html>
