@@ -5,8 +5,6 @@ VisualStudioVersion = 17.0.31919.166
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{DA6EE835-29C9-4D25-8DD8-DD746B4FFEA7}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{664D406C-2F83-48F0-BFC3-408D5CB53C65}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Server", "src\Server\Server.csproj", "{BD13502B-A99A-49C0-8568-312117C585DA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Client", "src\Client\Client.csproj", "{702C9037-30F9-4065-A6F1-6ADD03D74820}"
@@ -15,14 +13,23 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Domain", "src\Domain\Domain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Server", "src\Infrastructure.Server\Infrastructure.Server.csproj", "{4DAC1D2D-147B-469A-B233-7BD3268B445B}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1A937D57-A8DA-4975-A347-02BA22F64923}"
-	ProjectSection(SolutionItems) = preProject
-		notes.txt = notes.txt
-	EndProjectSection
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure.Client", "src\Infrastructure.Client\Infrastructure.Client.csproj", "{4D776CF9-5D16-4BBB-AD3C-4740A30E605E}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Application\Application.csproj", "{F6B47DF4-39AF-404F-AC71-D2F247876FF8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{9492C58F-378A-48B5-810A-F2381C99CA33}"
+	ProjectSection(SolutionItems) = preProject
+		docs\database-commands.txt = docs\database-commands.txt
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bybit-json-examples", "bybit-json-examples", "{5D7EAD3C-FF53-4BF0-9E1C-5014506C9B12}"
+	ProjectSection(SolutionItems) = preProject
+		docs\bybit-json-examples\restapi-execution-open-close-long-position.json = docs\bybit-json-examples\restapi-execution-open-close-long-position.json
+		docs\bybit-json-examples\websocket-execution-close-long-position.json.json = docs\bybit-json-examples\websocket-execution-close-long-position.json.json
+		docs\bybit-json-examples\websocket-execution-open-long-position.json = docs\bybit-json-examples\websocket-execution-open-long-position.json
+		docs\bybit-json-examples\websocket-execution-open-short-position.json = docs\bybit-json-examples\websocket-execution-open-short-position.json
+		docs\bybit-json-examples\websocket-position-open-short-position.json = docs\bybit-json-examples\websocket-position-open-short-position.json
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -65,6 +72,7 @@ Global
 		{4DAC1D2D-147B-469A-B233-7BD3268B445B} = {DA6EE835-29C9-4D25-8DD8-DD746B4FFEA7}
 		{4D776CF9-5D16-4BBB-AD3C-4740A30E605E} = {DA6EE835-29C9-4D25-8DD8-DD746B4FFEA7}
 		{F6B47DF4-39AF-404F-AC71-D2F247876FF8} = {DA6EE835-29C9-4D25-8DD8-DD746B4FFEA7}
+		{5D7EAD3C-FF53-4BF0-9E1C-5014506C9B12} = {9492C58F-378A-48B5-810A-F2381C99CA33}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BA0F5941-7DE0-4D27-A7D2-08A7CC54CCA3}
