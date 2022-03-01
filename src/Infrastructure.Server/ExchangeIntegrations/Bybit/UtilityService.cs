@@ -56,6 +56,6 @@ public class UtilityService : IUtilityService
         return hex.ToString();
     }
 
-    internal static long GetExpirationInUnixMilliseconds() => DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() + 1000;
+    internal static long GetExpirationInUnixMilliseconds() => DateTimeOffset.Now.ToUnixTimeMilliseconds();
 
 }

@@ -29,9 +29,11 @@ public static class ServiceCollectionExtension
 
     public static IServiceCollection AddClientApplication(this IServiceCollection services)
     {
-        services.AddScoped<ITradingAccountService,TradingAccountService>();
+        services.AddScoped<ITradingAccountService,AccountService>();
+        services.AddScoped<ITradeService,TradeService>();
         services.AddScoped<IUserPreferncesService, UserPreferncesService>();
         services.AddScoped<UserInterfaceService>();
+        services.AddScoped<IReportService, ReportService>();
 
         services.AddBlazoredToast();
 

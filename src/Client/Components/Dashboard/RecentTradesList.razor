@@ -1,0 +1,85 @@
+﻿@inject ITradeService TradeService
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+
+@attribute [Authorize]
+
+<MudGrid>
+    <MudItem sm="12">
+
+        <MudText Typo="Typo.h5">@Title</MudText>
+
+        <MudTable Items="@_trades" Loading="@_loading" LoadingProgressColor="Color.Info"
+                  T="Trade" OnRowClick="OnRowClick" Elevation="0"
+                  Hover="true" RowStyle="cursor: pointer;">
+
+            <HeaderContent>
+                <MudTh>Status</MudTh>
+                <MudTh>Side</MudTh>
+                <MudTh>Symbol</MudTh>
+                <MudTh>Size</MudTh>
+                <MudTh>Return</MudTh>
+            </HeaderContent>
+
+            <RowTemplate>
+                <MudTd DataLabel="Status"><MudText Color="GetStatusColor(context.Status)">@context.Status</MudText></MudTd>
+                <MudTd DataLabel="Side">@context.Side</MudTd>
+                <MudTd DataLabel="Symbol">@context.Symbol.Name</MudTd>
+                <MudTd DataLabel="Size">@context.Size</MudTd>
+                <MudTd DataLabel="Return"><MudText Color="GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
+            </RowTemplate>
+
+        </MudTable>
+    </MudItem>
+</MudGrid>
+
+
+@code {
+
+    private bool _loading;
+
+    private List<Trade> _trades;
+
+    [Parameter]
+    public int MaxTrades { get; set; }
+
+    [Parameter]
+    public IEnumerable<TradeStatus> Statuses { get; set; }
+
+    [Parameter]
+    public string Title { get; set; } = "Trade History";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await TradeService.LoadTrades(1, MaxTrades, Statuses);
+        _trades = TradeService.PaginatedList.Items;
+        await base.OnInitializedAsync();
+    }
+
+    private void OnRowClick(TableRowClickEventArgs<Trade> args)
+    {
+        NavigationManager.NavigateTo($"/trades/{args.Item.Id}");
+    }
+
+    private Color GetStatusColor(TradeStatus result)
+    {
+        return result switch
+        {
+            TradeStatus.Open => Color.Warning,
+            TradeStatus.Breakeven => Color.Default,
+            TradeStatus.Win => Color.Success,
+            TradeStatus.Loss => Color.Error,
+        };
+    }
+
+    private Color GetReturnColor(decimal amount)
+    {
+        return amount switch
+        {
+            0 => Color.Default,
+            > 0 => Color.Success,
+            < 0 => Color.Error,
+        };
+    }
+}
+

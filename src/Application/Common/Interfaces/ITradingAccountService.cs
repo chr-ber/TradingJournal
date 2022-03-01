@@ -1,5 +1,5 @@
 ﻿using TradingJournal.Application.Common.Models;
-using TradingJournal.Application.TradingAccounts.Commands.CreateTradingAccount;
+using TradingJournal.Application.Accounts.Commands.CreateTradingAccount;
 using TradingJournal.Domain.Entities;
 using TradingJournal.Domain.Enums;
 

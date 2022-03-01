@@ -1,0 +1,24 @@
+﻿@attribute [Authorize]
+
+@inject ITradeService TradeService
+
+<MudGrid>
+    <MudItem sm="12">
+
+        <MudText Typo="Typo.h5">Total Trades</MudText>
+
+        <MudText Typo="Typo.body1">@_tradeCount</MudText>
+
+    </MudItem>
+</MudGrid>
+
+@code{
+    private int _tradeCount;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _tradeCount = await TradeService.GetTradeCount();
+        await base.OnInitializedAsync();
+    }
+
+}

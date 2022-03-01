@@ -1,10 +1,14 @@
 using TradingJournal.Application.DependencyInjection;
 using TradingJournal.Infrastructure.Server.DependencyInjection;
 using FluentValidation.AspNetCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+// add json options to controller to ignore circular references when serializing
+builder.Services.AddControllersWithViews().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); 
+
 builder.Services.AddRazorPages();
 
 // add fluent validation, used for client side validation of models

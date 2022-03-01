@@ -16,17 +16,19 @@ public class Theme
 
     private static readonly Palette LightPalette = new()
     {
+        Primary = "#3ccdb6",
         Black = "#110e2d",
         AppbarText = "#424242",
         AppbarBackground = "rgba(255,255,255,0.8)",
         DrawerBackground = "#ffffff",
         GrayLight = "#e8e8e8",
-        GrayLighter = "#f9f9f9"
+        GrayLighter = "#f9f9f9",
+        TableHover = "rgba(127,207,194,0.20)",
     };
 
     private static readonly Palette DarkPalette = new()
     {
-        Primary = "#7e6fff",
+        Primary = "#3ccdb6",
         Surface = "#1e1e2d",
         Background = "#1a1a27",
         BackgroundGrey = "#151521",
@@ -50,6 +52,7 @@ public class Theme
         LinesDefault = "#33323e",
         TableLines = "#33323e",
         Divider = "#292838",
-        OverlayLight = "#1e1e2d80"
+        OverlayLight = "#1e1e2d80",
+        TableHover = "rgba(127,207,194,0.20)",
     };
 }

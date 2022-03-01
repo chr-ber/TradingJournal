@@ -1,8 +1,13 @@
-﻿using TradingJournal.Domain.Enums;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TradingJournal.Domain.Entities;
+using TradingJournal.Domain.Enums;
 
-namespace TradingJournal.Domain.Entities;
-
-public class Trade
+namespace TradingJournal.Application.Trades.Queries;
+public class TradeDto
 {
     public int Id { get; set; }
 
@@ -10,11 +15,7 @@ public class Trade
 
     public virtual Symbol Symbol { get; set; }
 
-    public int SymbolId { get; set; }
-
-    public virtual TradingAccount TradingAccount { get; set; }
-
-    public int TradingAccountId { get; set; }
+    public string AccountName { get; set; }
 
     public virtual List<Execution> Executions { get; set; } = new();
 
@@ -34,13 +35,9 @@ public class Trade
 
     public decimal NetReturn { get; set; }
 
-    public TradeStatus Status { get; set; }
+    public TradeStatus Result { get; set; }
 
     public int Confluences { get; set; }
 
     public string Notes { get; set; }
-
-    public DateTime OpenedAt { get; set; }
-
-    public DateTime ClosedAt { get; set; }
 }

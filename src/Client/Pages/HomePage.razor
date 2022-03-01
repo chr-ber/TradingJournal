@@ -1,0 +1,42 @@
+﻿@page "/"
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Index</PageTitle>
+
+<MudGrid Class="mb-16 mb-sm-0">
+    <MudItem Class="relative" xs="12" md="9" lg="12">
+        <MudText Typo="Typo.h1">The</MudText>
+        <MudText Typo="Typo.h1" Inline="true" Class="tj-text-gradient">Trading Journal</MudText>
+        <MudText Typo="Typo.h1">You truly deserve</MudText>
+        <div class="pl-1 my-4">
+            <MudText Typo="Typo.subtitle1" Class="mud-text-secondary">
+                Never has it been easier to get the most out of your trades, a trading journal hand tailored for the crypto market.
+            </MudText>
+            <MudText Typo="Typo.subtitle1" Class="mud-text-secondary">
+                No matter if you are just a beginner or a full professional, start today and ramp up your win rate in no time.
+            </MudText>
+        </div>
+        <div class="d-flex py-4 mb-16 mb-md-0">
+            <MudButton Color="Color.Primary" Variant="Variant.Filled" StartIcon="@Icons.Rounded.AppRegistration" DisableElevation="true" Size="Size.Large" Link="/registration">Sign Up</MudButton>
+            <MudButton Color="Color.Primary" Variant="Variant.Outlined" StartIcon="@Icons.Rounded.Login" Size="Size.Large" Class="ms-4" Link="/login">Login</MudButton>
+        </div>
+    </MudItem>
+</MudGrid>
+
+@code {
+
+    [CascadingParameter]
+    private Task<AuthenticationState> _authStateTask { get; set; }
+
+    // forward user to the dashboard if authenticated
+    protected override async Task OnInitializedAsync()
+    {
+        var state = await _authStateTask;
+        if (state.User.Identity.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("dashboard");
+        }
+        await base.OnInitializedAsync();
+    }
+}

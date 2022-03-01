@@ -1,0 +1,17 @@
+﻿@inject ITradeService TradeService
+
+<MudItem xs="12">
+    <MudText Typo="Typo.h5">Average Return</MudText>
+    <MudText>@($"{_averageReturn:N}")</MudText>
+</MudItem>
+
+@code {
+
+    private decimal _averageReturn;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _averageReturn  = await TradeService.GetAverageReturn();
+        await base.OnInitializedAsync();
+    }
+}

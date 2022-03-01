@@ -10,8 +10,6 @@ using MediatR;
 using TradingJournal.Infrastructure.Server.ExchangeIntegrations.Bybit;
 using TradingJournal.Application.Common.Models;
 using TradingJournal.Application.Trades.Queries;
-using TradingJournal.Application.TradingAccounts.Commands.CreateTradingAccount;
-using TradingJournal.Application.Trades.Commands;
 using TradingJournal.Application.Symbols.Commands;
 
 namespace TradingJournal.Application.BackgroundServices;
@@ -170,16 +168,8 @@ public class AccountSynchronizationService : BackgroundService
 
         var tradeDirection = isClosing switch
         {
-            true => tradeSide switch
-            {
-                TradeSide.Short => TradeDirection.CloseShort,
-                TradeSide.Long => TradeDirection.CloseLong,
-            },
-            false => tradeSide switch
-            {
-                TradeSide.Short => TradeDirection.OpenShort,
-                TradeSide.Long => TradeDirection.OpenLong,
-            },
+            true => TradeDirection.Close,
+            false => TradeDirection.Open,
         };
 
         //// if not trade was found, create one

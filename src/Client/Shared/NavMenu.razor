@@ -1,29 +1,42 @@
-﻿
+﻿@inject NavigationManager NavigationManager
+
 <a class="d-flex align-center py-4" style="padding-left:10px;" href="/">
-    <MudIcon Icon="@Icons.Filled.Addchart" Color="Color.Success" Size="Size.Large" Style="padding:4px" />
+    <MudIcon Icon="@Icons.Filled.Addchart" Color="Color.Primary" Size="Size.Large" Style="padding:4px" />
     <MudText Color="Color.Primary" Typo="Typo.h5" Class="tj-text-gradient ">Trading Journal</MudText>
 </a>
 
 <AuthorizeView>
+
     <Authorized>
-        @*<MudPaper>*@
-            <MudNavMenu Color="Color.Success">
-                <MudNavLink Href="/dashboard">Dashboard</MudNavLink>
-                <MudNavLink Href="/trades">Trades</MudNavLink>
-                <MudNavGroup Title="Reports" Expanded="true">
-                    <MudNavLink Href="/reports/daily">Daily</MudNavLink>
-                    <MudNavLink Href="/reports/weekly">Weekly</MudNavLink>
-                    <MudNavLink Href="/reports/monthly">Monthyl</MudNavLink>
-                </MudNavGroup>
-                <MudNavLink Href="/accounts">Accounts</MudNavLink>
-            </MudNavMenu>
-        @*</MudPaper>*@
+        <MudNavMenu Color="Color.Primary" Bordered="true">
+            <MudNavLink Href="/dashboard">Dashboard</MudNavLink>
+            <MudNavLink Href="/trades">Trades</MudNavLink>
+            <MudNavGroup Title="Reports" Expanded="_isReportsExpanded">
+                <MudNavLink Href="/reports/weekday">Weekday</MudNavLink>
+                <MudNavLink Href="/reports/weekly">Week</MudNavLink>
+            </MudNavGroup>
+            <MudNavLink Href="/accounts">Accounts</MudNavLink>
+        </MudNavMenu>
     </Authorized>
+
     <NotAuthorized>
 
     </NotAuthorized>
+
 </AuthorizeView>
 
 @code {
 
+    private bool _isReportsExpanded;
+
+    private void IsReportsPageSelected()
+    {
+        _isReportsExpanded = NavigationManager.Uri.Contains("/reports/");
+    }
+
+    protected override void OnInitialized()
+    {
+        IsReportsPageSelected();
+        base.OnInitialized();
+    }
 }

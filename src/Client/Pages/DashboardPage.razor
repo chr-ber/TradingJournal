@@ -1,0 +1,40 @@
+﻿@page "/dashboard"
+
+@attribute [Authorize]
+
+<PageTitle>Dashboard</PageTitle>
+
+<MudText Typo="Typo.h4">Dashbaord</MudText>
+
+<MudContainer Class="mt-8 px-4" MaxWidth="MaxWidth.False">
+    <MudGrid>
+
+        <MudItem xs="12" sm="6">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 100px;"><TotalTradesCounter /></MudPaper>
+        </MudItem>
+
+        <MudItem xs="12" sm="6">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 100px;"><AverageReturn /></MudPaper>
+        </MudItem>
+
+        <MudItem md="12" lg="6">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 100%">
+                <RecentTradesList MaxTrades="10" Statuses="_winStatus" Title="Recent Wins" />
+            </MudPaper>
+        </MudItem>
+
+        <MudItem md="12" lg="6">
+            <MudPaper Elevation="2" Class="pa-4" Style="height: 100%">
+                <RecentTradesList MaxTrades="10" Statuses="_lossStatus" Title="Recent Losses" />
+            </MudPaper>
+        </MudItem>
+
+    </MudGrid>
+</MudContainer>
+
+@code {
+
+    private List<TradeStatus> _winStatus = new() { TradeStatus.Win };
+    private List<TradeStatus> _lossStatus = new() { TradeStatus.Loss };
+
+}

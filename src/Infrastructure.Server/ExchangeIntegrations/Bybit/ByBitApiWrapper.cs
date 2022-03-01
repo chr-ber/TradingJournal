@@ -49,7 +49,7 @@ public class ByBitApiWrapper : IByBitApiWrapper
         var executionGrped = execution.GroupBy(x => x.order_id);
 
         // short delay that data is available via rest api
-        await Task.Delay(1 * 1000);
+        await Task.Delay(1 * 2000);
 
         // process each grp of executions by order_id
         foreach (var grp in executionGrped)
@@ -58,6 +58,13 @@ public class ByBitApiWrapper : IByBitApiWrapper
 
             // get detailed order information from rest api
             var order = await GetActiveLinearOrderByOrderId(item.order_id, item.symbol);
+
+            // if no order returned, retry in a few seconds
+            if (order is null)
+            {
+                await Task.Delay(1 * 5000);
+                order = await GetActiveLinearOrderByOrderId(item.order_id, item.symbol);
+            }
 
             // Trigger event for grp of executions and bool if order was opened or closed (closed = reduce_only)
             OnReceivedExecution?.Invoke(grp.ToList(), this, order.reduce_only, order.qty);
@@ -74,7 +81,7 @@ public class ByBitApiWrapper : IByBitApiWrapper
 
         using (var client = new HttpClient())
         {
-            string requestUrl = "https://api-testnet.bybit.com//private/linear/order/search?" + $"{queryParams}&sign={signature}";
+            string requestUrl = "https://api-testnet.bybit.com/private/linear/order/search?" + $"{queryParams}&sign={signature}";
 
             var content = await client.GetStringAsync(requestUrl);
 
@@ -91,6 +98,16 @@ public class ByBitApiWrapper : IByBitApiWrapper
                 Debug.WriteLine(content);
                 return null;
             }
+        }
+    }
+
+    public async Task<long> GetServerTime()
+    {
+        using(var client = new HttpClient())
+        {
+            var response = await client.GetAsync("https://api-testnet.bybit.co/v2/public/time");
+
+            throw new NotImplementedException();
         }
     }
 
