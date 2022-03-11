@@ -1,6 +1,12 @@
-TradingJournal is a C# Single Page Application fully written in C#.
+TradingJournal is a Single Page Application fully written in C#.
 
-Its trying to follow the principles provided by the [Clean Architecture Solution Template](https://github.com/jasontaylordev/CleanArchitecture).
+The goal of the app is to make journaling trades executed on the exchange bybit.com effortless.
+
+This is achieved by allowing the users to add read only api keys from the exchange to the application, which will then import all trades by listening to the websocket endpoints for:
+* [USDT Perpetual](https://bybit-exchange.github.io/docs/linear/#t-websocket)
+* [Inverse Perpetual](https://bybit-exchange.github.io/docs/inverse/#t-websocket)
+
+The design of the application is trying to follow the principles provided by the [Clean Architecture Solution Template](https://github.com/jasontaylordev/CleanArchitecture).
 
 ## Technologies
 
