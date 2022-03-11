@@ -26,8 +26,6 @@ public class Execution
 
     public decimal Return { get; set; }
 
-    public decimal ReturnPercentage { get; set; }
-
     public decimal NetReturn { get; set; }
 
     public TradeDirection Direction { get; set; }

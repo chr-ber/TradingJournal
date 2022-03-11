@@ -1,116 +1,130 @@
 ﻿@page "/trades/{Id:int}"
 
-@using Application.CQS.Trades.Commands;
+@using TradingJournal.Application.Entities.Trades.Commands.UpdateJournalingFields
 
 @inject ITradeService TradeService
 @inject IDialogService DialogService
 
 @attribute [Authorize]
 
-<PageTitle>TJ - Trade </PageTitle>
+<PageTitle>@_title</PageTitle>
 
-<MudGrid>
+<MudText Typo="Typo.h4">@_title</MudText>
 
-    <MudItem sm="12" lg="12" xl="8">
+<MudContainer Class="mt-8 px-4" MaxWidth="MaxWidth.False">
+    <MudGrid>
 
-        <MudText Typo="Typo.h4" Class="mb-6">@_trade.Symbol.Name @_trade.Side</MudText>
-
-        <MudTable Items="_trades" Loading="@_loading" LoadingProgressColor="Color.Info" @ref="_table">
-
-            <HeaderContent>
-                <MudTh>Status</MudTh>
-                <MudTh>Side</MudTh>
-                <MudTh>Symbol</MudTh>
-                <MudTh>Average Entry</MudTh>
-                <MudTh>Average Exit</MudTh>
-                <MudTh>Size</MudTh>
-                <MudTh>Return</MudTh>
-            </HeaderContent>
-
-            <RowTemplate>
-                <MudTd DataLabel="Status"><MudText Color="GetStatusColor(context.Status)">@context.Status</MudText></MudTd>
-                <MudTd DataLabel="Side">@context.Side</MudTd>
-                <MudTd DataLabel="Symbol">@context.Symbol.Name</MudTd>
-                <MudTd DataLabel="Entry">@context.AverageEntryPrice</MudTd>
-                <MudTd DataLabel="Exit">@(context.Status != TradeStatus.Open ? context.AverageExitPrice : "")</MudTd>
-                <MudTd DataLabel="Size">@context.Size</MudTd>
-                <MudTd DataLabel="Return"><MudText Color="GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
-            </RowTemplate>
-
-        </MudTable>
-    </MudItem>
-
-    <MudItem sm="12" lg="12" xl="8">
-
-        <MudText Typo="Typo.h4" Class="mb-6">Executions</MudText>
-
-        <MudTable Items="_executions" Loading="@_loading" LoadingProgressColor="Color.Info">
-
-            <HeaderContent>
-                <MudTh>Direction</MudTh>
-                <MudTh>Size</MudTh>
-                <MudTh>Position</MudTh>
-                <MudTh>Price</MudTh>
-                <MudTh>Value</MudTh>
-                <MudTh>Fee</MudTh>
-                <MudTh>Return</MudTh>
-            </HeaderContent>
-
-            <RowTemplate>
-                <MudTd DataLabel="Direction"><MudText Color="GetDirectionColor(context.Direction)">@context.Direction</MudText></MudTd>
-                <MudTd DataLabel="Size">@context.Size</MudTd>
-                <MudTd DataLabel="Position">@context.Position</MudTd>
-                <MudTd DataLabel="Price">@context.Price</MudTd>
-                <MudTd DataLabel="Exit">@context.Value</MudTd>
-                <MudTd DataLabel="Size">@context.Fee</MudTd>
-                <MudTd DataLabel="Return"><MudText Color="GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
-            </RowTemplate>
-
-        </MudTable>
-    </MudItem>
-
-    <MudItem xs="12">
-        <MudText Typo="Typo.h4">Journal</MudText>
-    </MudItem>
-
-    <MudItem xs="12" lg="8">
-        <MudPaper Elevation="2" Class="pa-4" Style="height: 100%">
-            <MudTextField @bind-Text="@_trade.Notes" Label="Notes" T="string" Variant="Variant.Outlined" Lines="6" />
-        </MudPaper>
-    </MudItem>
-
-    <MudItem xs="12" lg="4">
-        <MudPaper Elevation="2" Class="pa-4" Style="height: 100%;">
-            <MudGrid>
-                <MudItem xs="10">
-                    <MudNumericField @bind-Value="_trade.Confluences" Label="Confluences" Variant="Variant.Text" Min="0" Max="99" />
-                </MudItem>
-                <MudItem xs="2">
-                    <MudTooltip Text="Delete">
-                        <MudIconButton Icon="@Icons.Material.Outlined.QuestionMark" Size="Size.Small" Style=""/>
-                    </MudTooltip>
-                </MudItem>
-            </MudGrid>
-        </MudPaper>
-    </MudItem>
-
-    <MudItem xs="12">
-        @if (_saveInProgress)
+        @if (_trade == null)
         {
-            <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+
+            <MudText>Loading Trade...</MudText>
         }
-        <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="OnSaveButtonClick">Save</MudButton>
-    </MudItem>
+        else
+        {
 
-</MudGrid>
+            <MudItem xs="12">
 
+                <MudTable Items="_trades" Loading="@_loading" LoadingProgressColor="Color.Info">
+
+                    <HeaderContent>
+                        <MudTh>Status</MudTh>
+                        <MudTh>Side</MudTh>
+                        <MudTh>Symbol</MudTh>
+                        <MudTh>Account</MudTh>
+                        <MudTh>Opened</MudTh>
+                        <MudTh>Closed</MudTh>
+                        <MudTh>Average Entry</MudTh>
+                        <MudTh>Average Exit</MudTh>
+                        <MudTh>Size</MudTh>
+                        <MudTh>Return</MudTh>
+                        <MudTh>Net Return</MudTh>
+                    </HeaderContent>
+
+                    <RowTemplate>
+                        <MudTd DataLabel="Status"><MudText Color="GetStatusColor(context.Status)">@context.Status</MudText></MudTd>
+                        <MudTd DataLabel="Side">@context.Side</MudTd>
+                        <MudTd DataLabel="Symbol">@context.Symbol.Name</MudTd>
+                        <MudTd DataLabel="Account">@context.TradingAccount.Name</MudTd>
+                        <MudTd DataLabel="Opened">@context.OpenedAt</MudTd>
+                        <MudTd DataLabel="Closed">@($"{(context.Status == TradeStatus.Open ? "" : context.ClosedAt )}")</MudTd>
+                        <MudTd DataLabel="Entry">@context.AverageEntryPrice</MudTd>
+                        <MudTd DataLabel="Exit">@(context.Status != TradeStatus.Open ? context.AverageExitPrice : "")</MudTd>
+                        <MudTd DataLabel="Size">@context.Size</MudTd>
+                        <MudTd DataLabel="Return"><MudText Color="GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
+                        <MudTd DataLabel="Net Return"><MudText Color="GetReturnColor(context.NetReturn)">@context.NetReturn</MudText></MudTd>
+                    </RowTemplate>
+
+                </MudTable>
+            </MudItem>
+
+            <MudItem xs="12">
+
+                <MudText Typo="Typo.h4" Class="mb-6">Executions</MudText>
+
+                <MudTable Items="_executions" Loading="@_loading" LoadingProgressColor="Color.Info">
+
+                    <HeaderContent>
+                        <MudTh>Direction</MudTh>
+                        <MudTh>Size</MudTh>
+                        <MudTh>Position</MudTh>
+                        <MudTh>Price</MudTh>
+                        <MudTh>Value</MudTh>
+                        <MudTh>Fee</MudTh>
+                        <MudTh>Return</MudTh>
+                    </HeaderContent>
+
+                    <RowTemplate>
+                        <MudTd DataLabel="Direction"><MudText Color="GetDirectionColor(context.Direction)">@context.Direction</MudText></MudTd>
+                        <MudTd DataLabel="Size">@context.Size</MudTd>
+                        <MudTd DataLabel="Position">@context.Position</MudTd>
+                        <MudTd DataLabel="Price">@context.Price</MudTd>
+                        <MudTd DataLabel="Exit">@context.Value</MudTd>
+                        <MudTd DataLabel="Size">@context.Fee</MudTd>
+                        <MudTd DataLabel="Return"><MudText Color="GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
+                    </RowTemplate>
+
+                </MudTable>
+            </MudItem>
+
+            <MudItem xs="12">
+                <MudText Typo="Typo.h4">Journal</MudText>
+            </MudItem>
+
+            <MudItem xs="12" md="8">
+                <MudPaper Elevation="2" Class="pa-4" Style="height: 100%">
+                    <MudTextField @bind-Text="@_trade.Notes" Label="Notes" T="string" Variant="Variant.Outlined" Lines="6" />
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" md="4">
+                <MudPaper Elevation="2" Class="pa-4" Style="height: 100%;">
+                    <MudGrid>
+                        <MudItem xs="10">
+                            <MudNumericField @bind-Value="_trade.Confluences" Label="Confluences" Variant="Variant.Text" Min="0" Max="99" />
+                        </MudItem>
+                    </MudGrid>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12">
+                @if (_saveInProgress)
+                {
+                    <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
+                }
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="OnSaveButtonClick">Save</MudButton>
+            </MudItem>
+        }
+
+    </MudGrid>
+</MudContainer>
 
 @code {
 
     private bool _loading;
     private bool _saveInProgress = false;
 
-    private MudTable<Trade> _table;
+    private string _title;
+
     private Trade _trade;
     private HashSet<Trade> _trades;
     private List<Execution> _executions;
@@ -123,6 +137,7 @@
         _trade = await TradeService.GetTrade(Id);
         _trades = new() { _trade };
         _executions = _trade.Executions;
+        _title = $"{_trade.Side} - {_trade.Symbol.Name}";
 
         await base.OnInitializedAsync();
     }
@@ -135,7 +150,7 @@
             TradeStatus.Breakeven => Color.Default,
             TradeStatus.Win => Color.Success,
             TradeStatus.Loss => Color.Error,
-            _ => Color.Default
+            _ => Color.Default,
         };
     }
 
@@ -145,6 +160,7 @@
         {
             TradeDirection.Open => Color.Success,
             TradeDirection.Close => Color.Error,
+            _ => Color.Default,
         };
     }
 
@@ -174,4 +190,3 @@
         _saveInProgress = false;
     }
 }
-

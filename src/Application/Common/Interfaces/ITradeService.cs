@@ -1,5 +1,5 @@
-﻿using TradingJournal.Application.Common.Models;
-using TradingJournal.Application.CQS.Trades.Commands;
+﻿using TradingJournal.Application.Entities.Trades.Commands.UpdateJournalingFields;
+using TradingJournal.Application.Common.Models;
 using TradingJournal.Domain.Entities;
 using TradingJournal.Domain.Enums;
 
@@ -9,17 +9,15 @@ public interface ITradeService
 {
     PaginatedList<Trade> PaginatedList { get; set; }
 
-    Task DeleteTrade(int id);
-
-    Task LoadTrades(int pageNumber = 1, int pageSize = 10, IEnumerable<TradeStatus> includedStates = null);
+    Task LoadTrades(int pageNumber = 1, int pageSize = 10, IEnumerable<TradeStatus> includedStates = null, bool hidden = false);
 
     Task<Trade> GetTrade(int id);
 
     Task<int> GetTradeCount();
 
-    Task<decimal> GetAverageReturn();
+    Task BatchSetVisibility(IEnumerable<int> ids, bool isHidden);
 
-    Task<float> GetWinLossRatio();
+    Task<decimal> GetAverageReturn();
 
     Task UpdateJournalFields(UpdateJournalingFieldsCommand command);
 }

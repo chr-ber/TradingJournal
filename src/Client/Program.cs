@@ -1,4 +1,4 @@
-using TradingJournal.Infrastructure.Client.DependencyInjection;
+using TradingJournal.Client.DependencyInjection;
 using TradingJournal.Application.DependencyInjection;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.AspNetCore.Components.Web;
@@ -11,8 +11,8 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
 
-// add services from infrastructure library
-builder.Services.AddClientInfrastructure(builder.Configuration);
+// add authentication
+builder.Services.AddCustomAuthentication(builder.Configuration);
 // add services from application library
 builder.Services.AddClientApplication();
 // add ui package

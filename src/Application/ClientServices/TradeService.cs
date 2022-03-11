@@ -1,34 +1,30 @@
-﻿using TradingJournal.Application.Accounts.Commands.ChangeTradingAccountState;
-using TradingJournal.Application.Accounts.Commands.CreateTradingAccount;
+﻿using TradingJournal.Application.Entities.Trades.Commands.UpdateJournalingFields;
+using TradingJournal.Application.Entities.Trades.Commands.HideTrade;
 using TradingJournal.Application.Common.Interfaces;
 using TradingJournal.Application.Common.Models;
 using TradingJournal.Domain.Entities;
 using TradingJournal.Domain.Enums;
-using Blazored.Toast.Services;
-using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
-using TradingJournal.Application.CQS.Trades.Commands;
 
 namespace TradingJournal.Application.ClientServices;
 
-public class TradeService : ITradeService
+public class TradeService : ClientServiceBase, ITradeService
 {
     private readonly HttpClient _http;
-    private readonly IToastService _toastService;
 
     public PaginatedList<Trade> PaginatedList { get; set; }
 
-    public TradeService(HttpClient http, IToastService toastService)
+    public TradeService(HttpClient http)
     {
         _http = http;
-        _toastService = toastService;
     }
 
     public async Task LoadTrades(
         int pageNumber = 1,
         int pageSize = 10,
-        IEnumerable<TradeStatus> includedStates = null)
+        IEnumerable<TradeStatus> includedStates = null,
+        bool hidden = false)
     {
         //TradingAccounts = await _http.GetFromJsonAsync<PaginatedList<TradingAccount>>("api/accounts");
 
@@ -36,6 +32,7 @@ public class TradeService : ITradeService
         {
             ["pageNumber"] = pageNumber.ToString(),
             ["pageSize"] = pageSize.ToString(),
+            ["hidden"] = hidden.ToString(),
         };
 
         if(includedStates != null)
@@ -45,23 +42,10 @@ public class TradeService : ITradeService
         var dictFormUrlEncoded = new FormUrlEncodedContent(query);
         var queryString = await dictFormUrlEncoded.ReadAsStringAsync();
 
-        Console.WriteLine(queryString);
-
         string json = await _http.GetStringAsync($"api/trades?{queryString}");
 
-        JsonSerializerOptions options = new()
-        {
-            PropertyNameCaseInsensitive = true
-        };
-
-        var list = JsonSerializer.Deserialize<PaginatedList<Trade>>(json, options);
+        var list = JsonSerializer.Deserialize<PaginatedList<Trade>>(json, _jsonOptions);
         PaginatedList = list;
-    }
-
-    public async Task DeleteTrade(int id)
-    {
-        throw new NotImplementedException();
-        //await _http.DeleteAsync($"api/trades/{id}");
     }
 
     public async Task UpdateJournalFields(UpdateJournalingFieldsCommand command)
@@ -73,12 +57,7 @@ public class TradeService : ITradeService
     {
         string json = await _http.GetStringAsync($"api/trades/{id}");
 
-        JsonSerializerOptions options = new()
-        {
-            PropertyNameCaseInsensitive = true
-        };
-
-        return JsonSerializer.Deserialize<Trade>(json, options);
+        return JsonSerializer.Deserialize<Trade>(json, _jsonOptions);
     }
 
     public async Task<int> GetTradeCount()
@@ -95,8 +74,10 @@ public class TradeService : ITradeService
         return decimal.Parse(response);
     }
 
-    public async Task<float> GetWinLossRatio()
+
+    public async Task BatchSetVisibility(IEnumerable<int> ids, bool isHidden)
     {
-        throw new NotImplementedException();
+        var command = new BatchSetTradeVisibilityCommand { Ids = ids, IsHidden = isHidden };
+        var response = await _http.PutAsJsonAsync("api/trades/set-visibility", command);
     }
 }

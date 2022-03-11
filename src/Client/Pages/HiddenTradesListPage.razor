@@ -1,0 +1,148 @@
+﻿@page "/trades/hidden"
+
+@inject ITradeService TradeService
+@inject IDialogService DialogService
+@inject NavigationManager NavigationManager
+
+@attribute [Authorize]
+
+<PageTitle>Hidden Trades</PageTitle>
+
+<MudText Typo="Typo.h4"> Hidden Trades</MudText>
+
+<MudContainer Class="mt-8 px-4" MaxWidth="MaxWidth.False">
+    <MudGrid>
+        <MudItem xs="12" md="12" xl="8">
+
+            <MudTable ServerData="@(new Func<TableState, Task<TableData<Trade>>>(ServerReload))"
+                      MultiSelection="true" Loading="@_loading" LoadingProgressColor="Color.Info"
+                      SelectedItemsChanged="SelectionChanged" T="Trade" OnRowClick="OnRowClick"
+                      Hover="true" RowStyle="cursor: pointer;" @ref="_table" Breakpoint="Breakpoint.Sm">
+
+                <HeaderContent>
+                    <MudTh>Status</MudTh>
+                    <MudTh>Side</MudTh>
+                    <MudTh>Symbol</MudTh>
+                    <MudTh>Opened</MudTh>
+                    <MudTh>Entry</MudTh>
+                    <MudTh>Exit</MudTh>
+                    <MudTh>Size</MudTh>
+                    <MudTh>Return</MudTh>
+                </HeaderContent>
+
+                <RowTemplate>
+                    <MudTd DataLabel="Status"><MudText Color="GetStatusColor(context.Status)">@context.Status</MudText></MudTd>
+                    <MudTd DataLabel="Side">@context.Side</MudTd>
+                    <MudTd DataLabel="Symbol">@context.Symbol.Name</MudTd>
+                    <MudTd DataLabel="Opened">@context.OpenedAt</MudTd>
+                    <MudTd DataLabel="Entry">@context.AverageEntryPrice</MudTd>
+                    <MudTd DataLabel="Exit">@(context.Status != TradeStatus.Open ? context.AverageExitPrice : "")</MudTd>
+                    <MudTd DataLabel="Size">@context.Size</MudTd>
+                    <MudTd DataLabel="Return"><MudText Color="GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
+                </RowTemplate>
+
+                <PagerContent>
+                    <MudTablePager DisableRowsPerPage="true" HorizontalAlignment="HorizontalAlignment.Right" />
+                </PagerContent>
+
+            </MudTable>
+        </MudItem>
+
+        <MudItem xs="12" Class="mb-6">
+            <MudButtonGroup OverrideStyles="false">
+
+                <MudTooltip Text="Go to Trades">
+                    <MudIconButton Icon="@Icons.Filled.RestoreFromTrash" Variant="Variant.Outlined"
+                                   Color="Color.Primary" Size="Size.Large" Link="/trades" />
+                </MudTooltip>
+
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary"
+                           Disabled="@_areAccountsSelected" OnClick="OpenUnHideDialog">Unhide</MudButton>
+
+            </MudButtonGroup>
+
+        </MudItem>
+
+    </MudGrid>
+</MudContainer>
+
+@code {
+
+    private bool _areAccountsSelected = true;
+    private bool _loading;
+
+    private MudTable<Trade> _table;
+    private HashSet<Trade> _selectedItems;
+
+    private void SelectionChanged(HashSet<Trade> selectedAccounts)
+    {
+        _areAccountsSelected = selectedAccounts is null || selectedAccounts.Count == 0;
+    }
+
+    private void OnRowClick(TableRowClickEventArgs<Trade> args)
+    {
+        NavigationManager.NavigateTo($"/trades/{args.Item.Id}");
+    }
+
+    private Color GetStatusColor(TradeStatus result)
+    {
+        return result switch
+        {
+            TradeStatus.Open => Color.Warning,
+            TradeStatus.Breakeven => Color.Default,
+            TradeStatus.Win => Color.Success,
+            TradeStatus.Loss => Color.Error,
+        };
+    }
+
+    private Color GetReturnColor(decimal amount)
+    {
+        return amount switch
+        {
+            0 => Color.Default,
+            > 0 => Color.Success,
+            < 0 => Color.Error,
+        };
+    }
+
+    private void OpenAddAccountDialog()
+    {
+        var options = new DialogOptions() { MaxWidth = MaxWidth.ExtraSmall, FullWidth = true };
+        DialogService.Show<AddAccountDialog>("Add an Account", options);
+    }
+
+    private async Task<TableData<Trade>> ServerReload(TableState state)
+    {
+        // clear selection
+        _selectedItems = new();
+
+        // mudblazor pagination starts at 0 while backend starts at 1
+        await TradeService.LoadTrades(state.Page + 1, hidden: true);
+
+        return new TableData<Trade>()
+            {
+                TotalItems = TradeService.PaginatedList.TotalCount,
+                Items = TradeService.PaginatedList.Items
+            };
+    }
+
+    private async Task OpenUnHideDialog()
+    {
+        // instantiate a modal dialog to ask the user for confirmation
+        var parameters = new DialogParameters();
+        parameters.Add(nameof(ModalDialog.Text), $"Do you really want to unhide the {_table.SelectedItems.Count} selected trades?");
+        parameters.Add(nameof(ModalDialog.ButtonText), "Confirm");
+        parameters.Add(nameof(ModalDialog.ButtonColor), Color.Primary);
+
+        var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
+        var dialogResult = await DialogService.Show<ModalDialog>("Unhide Trades", parameters, options).Result;
+
+        // if OK button has been clicked on the modal performs batch unhide
+        if (dialogResult.Cancelled is false)
+        {
+            await TradeService.BatchSetVisibility(_table.SelectedItems.Select(x => x.Id), false);
+            await _table.ReloadServerData();
+        }
+    }
+}
+

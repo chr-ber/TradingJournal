@@ -1,0 +1,70 @@
+﻿@page "/reports/month"
+
+@using TradingJournal.Application.Entities.Reports.Queries.GetMonthReportQuery
+@inject IReportService ReportService
+
+@attribute [Authorize]
+
+<PageTitle>Report Month</PageTitle>
+
+<MudText Typo="Typo.h4">Report Month</MudText>
+
+<MudContainer Class="mt-8 px-4" MaxWidth="MaxWidth.False">
+    <MudGrid>
+
+        @if (_monthReport != null)
+        {
+            <MudItem xs="12" md="8">
+                <MudPaper Elevation="2" Class="pa-4" Style="height: 100%;">
+                    <MudChart ChartType="ChartType.Bar"
+                          ChartSeries="@_series"
+                          @bind-SelectedIndex="_index"
+                          XAxisLabels="@_labels"
+                          Width="100%"
+                          Height="400px"
+                          ChartOptions="@_chartOptions"/>
+                </MudPaper>
+            </MudItem>
+
+            <MudItem xs="12" md="4">
+                <MudPaper Elevation="2" Class="pa-4" Style="height: 100%;">
+                    <MudText Typo="Typo.h6" Style="margin-bottom:12px;">About</MudText>
+                    <MudText Typo="Typo.body1">Lists your trade results in percentages calculated for the last 12 months.</MudText>
+                    <MudText Typo="Typo.body1">Only considers the data within the last 365 days.</MudText>
+                    <br />
+                    <MudText Typo="Typo.h6">Summary</MudText>
+                    <MudText Typo="Typo.body1" Inline="true" Style="margin-bottom:6px;" Color="Color.Success">Best Month: </MudText>
+                    <MudText Typo="Typo.body1" Inline="true">@_monthReport.BestPerformingMonth</MudText>
+                    <br />
+                    <MudText Typo="Typo.body1" Inline="true" Style="margin-bottom:6px;" Color="Color.Error">Worst Month: </MudText>
+                    <MudText Typo="Typo.body1" Inline="true">@_monthReport.WorstPerfromingMonth</MudText>
+                </MudPaper>
+            </MudItem>
+        }
+
+    </MudGrid>
+</MudContainer>
+
+@code {
+
+    private int _index = -1; //default value cannot be 0 -> first selectedindex is 0.
+
+    private MonthReportDto _monthReport;
+    private List<ChartSeries> _series;
+    private ChartOptions _chartOptions;
+
+    public string[] _labels;
+
+    protected override async Task OnInitializedAsync()
+    {
+        _monthReport = await ReportService.GetMonthReport();
+
+        _series = _monthReport.MonthChart;
+        _labels = _monthReport.MonthStatistics.Select(x => x.Month).ToArray();
+
+        _chartOptions = new();
+        _chartOptions.ChartPalette = new []{ "#3ccdb6","#a1366c", "#cda03c" };
+
+        await base.OnInitializedAsync();
+    }
+}

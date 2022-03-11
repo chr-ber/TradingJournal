@@ -1,42 +1,30 @@
 ﻿using TradingJournal.Application.Common.Interfaces;
-using TradingJournal.Application.CQS.Reports.Queries.GetDailyReport;
+using TradingJournal.Application.Entities.Reports.Queries.GetDailyReport;
+using TradingJournal.Application.Entities.Reports.Queries.GetMonthReportQuery;
 using System.Text.Json;
 
 namespace TradingJournal.Application.ClientServices;
 
-public class ReportService : IReportService
+public class ReportService : ClientServiceBase, IReportService
 {
     private readonly HttpClient _http;
-    private readonly JsonSerializerOptions _jsonOptions;
 
     public ReportService(HttpClient http)
     {
         _http = http;
-
-        _jsonOptions = new()
-        {
-            PropertyNameCaseInsensitive = true
-        };
     }
 
-    public async Task<DailyReportDto> GetDailyReport()
+    public async Task<WeekdayReportDto> GetWeekdayReport()
     {
-        string response = await _http.GetStringAsync("api/reports/daily");
+        string response = await _http.GetStringAsync("api/reports/weekday");
 
-        return JsonSerializer.Deserialize<DailyReportDto>(response, _jsonOptions);
+        return JsonSerializer.Deserialize<WeekdayReportDto>(response, _jsonOptions);
     }
 
-    public async Task<DailyReportDto> GetWeeklyReport()
+    public async Task<MonthReportDto> GetMonthReport()
     {
-        string response = await _http.GetStringAsync("api/reports/daily");
+        string response = await _http.GetStringAsync("api/reports/month");
 
-        return JsonSerializer.Deserialize<DailyReportDto>(response, _jsonOptions);
-    }
-
-    public async Task<DailyReportDto> GetMonthlyReport()
-    {
-        string response = await _http.GetStringAsync("api/reports/daily");
-
-        return JsonSerializer.Deserialize<DailyReportDto>(response, _jsonOptions);
+        return JsonSerializer.Deserialize<MonthReportDto>(response, _jsonOptions);
     }
 }

@@ -24,6 +24,9 @@ public class Theme
         GrayLight = "#e8e8e8",
         GrayLighter = "#f9f9f9",
         TableHover = "rgba(127,207,194,0.20)",
+        Success = "#3ccdb6",
+        Warning = "#cda03c",
+        Error = "#a1366c",
     };
 
     private static readonly Palette DarkPalette = new()
@@ -46,9 +49,9 @@ public class Theme
         GrayLight = "#2a2833",
         GrayLighter = "#1e1e2d",
         Info = "#4a86ff",
-        Success = "#3dcb6c",
-        Warning = "#ffb545",
-        Error = "#ff3f5f",
+        Success = "#3ccdb6",
+        Warning = "#cda03c",
+        Error = "#a1366c",
         LinesDefault = "#33323e",
         TableLines = "#33323e",
         Divider = "#292838",

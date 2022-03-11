@@ -20,11 +20,9 @@ public class PaginatedList<T>
     [JsonIgnore]
     public bool HasNextPage => SelectedPage < TotalPages;
 
+    // constructor to be used for deserialization only
    [JsonConstructor]
-    public PaginatedList()
-    {
-
-    }
+    public PaginatedList() {  }
 
     public PaginatedList(List<T> items, int total, int selectedPage, int pageSize)
     {
@@ -37,7 +35,12 @@ public class PaginatedList<T>
     public static async Task<PaginatedList<T>> CreateAsync(IQueryable<T> source, int selectedPage, int pageSize)
     {
         int total = await source.CountAsync();
-        List<T> items = await source.Skip((selectedPage - 1) * pageSize).Take(pageSize).ToListAsync();
+
+        // get the desired amount of rows from the database
+        List<T> items = await source
+            .Skip((selectedPage - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
 
         return new PaginatedList<T>(items, total, selectedPage, pageSize);
     }

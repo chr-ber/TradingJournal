@@ -1,6 +1,6 @@
 ﻿@page "/reports/weekday"
 
-@using TradingJournal.Application.CQS.Reports.Queries.GetDailyReport
+@using TradingJournal.Application.Entities.Reports.Queries.GetDailyReport
 @inject IReportService ReportService
 
 @attribute [Authorize]
@@ -12,32 +12,37 @@
 <MudContainer Class="mt-8 px-4" MaxWidth="MaxWidth.False">
     <MudGrid>
 
-        <MudItem xs="12" sm="8">
+        @if (_dailyReport != null)
+        {
+            <MudItem xs="12" md="8">
 
-            <MudPaper Elevation="2" Class="pa-4" Style="height: 100%;">
-                <MudChart ChartType="ChartType.Bar"
+                <MudPaper Elevation="2" Class="pa-4" Style="height: 100%;">
+                    <MudChart ChartType="ChartType.Bar"
                           ChartSeries="@_series"
                           @bind-SelectedIndex="_index"
                           XAxisLabels="@_labels"
                           Width="100%"
-                          Height="400px" />
+                          Height="400px"
+                          ChartOptions="@_chartOptions"/>
 
-            </MudPaper>
-        </MudItem>
+                </MudPaper>
+            </MudItem>
 
-        <MudItem xs="12" sm="4">
-            <MudPaper Elevation="2" Class="pa-4" Style="height: 100%;">
-                <MudText Typo="Typo.h6" Style="margin-bottom:12px;">About</MudText>
-                <MudText Typo="Typo.body1">Lists your trade results in percentages calculated for each weekday.</MudText>
-                <MudText Typo="Typo.body1">Only considers the data within the last 365 days.</MudText>
-                <br />
-                <MudText Typo="Typo.h6" Style="margin-bottom:12px;">Summary</MudText>
-                <MudText Typo="Typo.body1" Style="margin-bottom:6px;">Best Day: <MudText Typo="Typo.body1" Inline="true">@_dailyReport.BestPerformingDay</MudText></MudText>
-                
-                <MudText Typo="Typo.body1" Style="margin-bottom:6px;">Worst Day: <MudText Typo="Typo.body1" Inline="true">@_dailyReport.WorstPerfromingDay</MudText></MudText>
-                
-            </MudPaper>
-        </MudItem>
+            <MudItem xs="12" md="4">
+                <MudPaper Elevation="2" Class="pa-4" Style="height: 100%;">
+                    <MudText Typo="Typo.h6" Style="margin-bottom:12px;">About</MudText>
+                    <MudText Typo="Typo.body1">Lists your trade results in percentages calculated for each weekday.</MudText>
+                    <MudText Typo="Typo.body1">Only considers the data within the last 365 days.</MudText>
+                    <br />
+                    <MudText Typo="Typo.h6">Summary</MudText>
+                    <MudText Typo="Typo.body1" Inline="true" Style="margin-bottom:6px;" Color="Color.Success">Best Day: </MudText>
+                    <MudText Typo="Typo.body1" Inline="true">@_dailyReport.BestPerformingDay</MudText>
+                    <br />
+                    <MudText Typo="Typo.body1" Inline="true" Style="margin-bottom:6px;" Color="Color.Error">Worst Day: </MudText>
+                    <MudText Typo="Typo.body1" Inline="true">@_dailyReport.WorstPerfromingDay</MudText>
+                </MudPaper>
+            </MudItem>
+        }
 
     </MudGrid>
 </MudContainer>
@@ -46,20 +51,21 @@
 
     private int _index = -1; //default value cannot be 0 -> first selectedindex is 0.
 
-    private DailyReportDto _dailyReport;
+    private WeekdayReportDto _dailyReport;
     private List<ChartSeries> _series;
+    private ChartOptions _chartOptions;
 
     public string[] _labels;
 
     protected override async Task OnInitializedAsync()
     {
-
-        //var temp = new ChartOptions() { ChartPalette = new() };
-
-        _dailyReport = await ReportService.GetDailyReport();
+        _dailyReport = await ReportService.GetWeekdayReport();
 
         _series = _dailyReport.WeekdayChart;
-        _labels = _dailyReport.WeekdayStats.Select(x => x.Weekday).ToArray();
+        _labels = _dailyReport.MonthStatistics.Select(x => x.DayOfWeek).ToArray();
+
+        _chartOptions = new();
+        _chartOptions.ChartPalette = new []{ "#3ccdb6","#a1366c", "#cda03c" };
 
         await base.OnInitializedAsync();
     }

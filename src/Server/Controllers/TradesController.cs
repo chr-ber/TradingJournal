@@ -1,9 +1,10 @@
-﻿using TradingJournal.Application.Common.Models;
+﻿using TradingJournal.Application.Entities.Trades.Commands.UpdateJournalingFields;
+using TradingJournal.Application.Entities.Trades.Commands.HideTrade;
+using TradingJournal.Application.Trades.Queries;
+using TradingJournal.Application.Common.Models;
 using TradingJournal.Domain.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TradingJournal.Application.Trades.Queries;
-using TradingJournal.Application.CQS.Trades.Commands;
 
 namespace TradingJournal.Server.Controllers;
 
@@ -38,6 +39,13 @@ public class TradesController : ApiControllerBase
 
     [HttpPut("journal")]
     public async Task<IActionResult> SetJournalingFields(UpdateJournalingFieldsCommand command)
+    {
+        await Mediator.Send(command);
+        return NoContent();
+    }
+
+    [HttpPut("set-visibility")]
+    public async Task<IActionResult> SetVisibility(BatchSetTradeVisibilityCommand command)
     {
         await Mediator.Send(command);
         return NoContent();

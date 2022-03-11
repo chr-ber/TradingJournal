@@ -1,10 +1,10 @@
 # entity framework migrations
 	switch to the solution root directory
 	run the command (update initial with your migration comment)
-		dotnet ef migrations add "initial" --project src\Infrastructure.Server --startup-project src\Server --output-dir Persistence\Migrations 
+		dotnet ef migrations add "initial" --project src\Infrastructure --startup-project src\Server --output-dir Persistence\Migrations 
 
 
 # entity framework - update db
 	switch to the solution root directory
 	run the command
-		dotnet ef database update --project src\Infrastructure.Server --startup-project src\Server 
+		dotnet ef database update --project src\Infrastructure --startup-project src\Server 

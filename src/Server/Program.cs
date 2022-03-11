@@ -1,5 +1,6 @@
-using TradingJournal.Application.DependencyInjection;
 using TradingJournal.Infrastructure.Server.DependencyInjection;
+using TradingJournal.Application.DependencyInjection;
+using TradingJournal.Server.DependencyInjection;
 using FluentValidation.AspNetCore;
 using System.Text.Json.Serialization;
 
@@ -7,19 +8,20 @@ var builder = WebApplication.CreateBuilder(args);
 
 // add json options to controller to ignore circular references when serializing
 builder.Services.AddControllersWithViews().AddJsonOptions(x =>
-                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles); 
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 builder.Services.AddRazorPages();
 
-// add fluent validation, used for client side validation of models
-builder.Services.AddFluentValidation();
-
 builder.Services.AddHttpContextAccessor();
 
+// add fluent validation, used for client side validation of models
+builder.Services.AddFluentValidation();
 // Add dependencies from Infrastructure library
 builder.Services.AddServerInfrastructure(builder.Configuration);
 // Add dependencies from Application library
 builder.Services.AddServerApplication();
+// Add custom authentication
+builder.Services.AddCustomAuthentication(builder.Configuration);
 
 var app = builder.Build();
 
@@ -45,6 +47,9 @@ app.UseRouting();
 // enable authentication and authorization
 app.UseAuthentication();
 app.UseAuthorization();
+
+// apply pending migrations and seed database if enabled
+await ApplicationDbContextSeed.SeedAndMigrateDatabase(app.Services, builder.Configuration.GetValue<bool>("SeedDatabaseWithSampleData"));
 
 app.MapRazorPages();
 app.MapControllers();

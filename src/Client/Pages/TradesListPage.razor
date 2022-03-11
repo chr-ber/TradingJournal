@@ -6,65 +6,71 @@
 
 @attribute [Authorize]
 
-<PageTitle>TJ - Trades</PageTitle>
+<PageTitle>Trades</PageTitle>
 
-<MudGrid>
+<MudText Typo="Typo.h4">Trades</MudText>
 
-    <MudItem sm="12" lg="12" xl="8">
+<MudContainer Class="mt-8 px-4" MaxWidth="MaxWidth.False">
+    <MudGrid>
 
-        <MudText Typo="Typo.h4" Class="mb-6">Trades</MudText>
+        <MudItem xs="12">
 
-        <MudTable ServerData="@(new Func<TableState, Task<TableData<Trade>>>(ServerReload))"
-                  Loading="@_loading" LoadingProgressColor="Color.Info" MultiSelection="true"
-                  SelectedItemsChanged="SelectionChanged" T="Trade" OnRowClick="OnRowClick"
-                  Hover="true" @ref="_table" RowStyle="cursor: pointer;">
 
-            <ToolBarContent>
-                @*<MudText Typo="Typo.subtitle2">Listing of ByBit API accounts</MudText>*@
-            </ToolBarContent>
+            <MudTable ServerData="@(new Func<TableState, Task<TableData<Trade>>>(ServerReload))"
+                      MultiSelection="true" Loading="@_loading" LoadingProgressColor="Color.Info"
+                      SelectedItemsChanged="SelectionChanged" T="Trade" OnRowClick="OnRowClick"
+                      Hover="true" RowStyle="cursor: pointer;" @ref="_table" Breakpoint="Breakpoint.Sm">
 
-            <HeaderContent>
-                <MudTh>Status</MudTh>
-                <MudTh>Side</MudTh>
-                <MudTh>Symbol</MudTh>
-                <MudTh>Opened</MudTh>
-                <MudTh>Entry</MudTh>
-                <MudTh>Exit</MudTh>
-                <MudTh>Size</MudTh>
-                <MudTh>Return</MudTh>
-            </HeaderContent>
+                <HeaderContent>
+                    <MudTh>Status</MudTh>
+                    <MudTh>Side</MudTh>
+                    <MudTh>Symbol</MudTh>
+                    <MudTh>Account</MudTh>
+                    <MudTh>Opened</MudTh>
+                    <MudTh>Entry</MudTh>
+                    <MudTh>Exit</MudTh>
+                    <MudTh>Size</MudTh>
+                    <MudTh>Return</MudTh>
+                    <MudTh>Net Return</MudTh>
+                </HeaderContent>
 
-            <RowTemplate>
-                <MudTd DataLabel="Status"><MudText Color="GetStatusColor(context.Status)">@context.Status</MudText></MudTd>
-                <MudTd DataLabel="Side">@context.Side</MudTd>
-                <MudTd DataLabel="Symbol">@context.Symbol.Name</MudTd>
-                <MudTd DataLabel="Opened">@context.OpenedAt</MudTd>
-                <MudTd DataLabel="Entry">@context.AverageEntryPrice</MudTd>
-                <MudTd DataLabel="Exit">@(context.Status != TradeStatus.Open ? context.AverageExitPrice : "")</MudTd>
-                <MudTd DataLabel="Size">@context.Size</MudTd>
-                <MudTd DataLabel="Return"><MudText Color="GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
-            </RowTemplate>
+                <RowTemplate>
+                    <MudTd DataLabel="Status"><MudText Color="GetStatusColor(context.Status)">@context.Status</MudText></MudTd>
+                    <MudTd DataLabel="Side">@context.Side</MudTd>
+                    <MudTd DataLabel="Symbol">@context.Symbol.Name</MudTd>
+                    <MudTd DataLabel="Account">@context.TradingAccount.Name</MudTd>
+                    <MudTd DataLabel="Opened">@context.OpenedAt</MudTd>
+                    <MudTd DataLabel="Entry">@context.AverageEntryPrice</MudTd>
+                    <MudTd DataLabel="Exit">@(context.Status != TradeStatus.Open ? context.AverageExitPrice : "")</MudTd>
+                    <MudTd DataLabel="Size">@context.Size</MudTd>
+                    <MudTd DataLabel="Return"><MudText Color="GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
+                    <MudTd DataLabel="Net Return"><MudText Color="GetReturnColor(context.NetReturn)">@context.NetReturn</MudText></MudTd>
+                </RowTemplate>
 
-            <PagerContent>
-                <MudTablePager DisableRowsPerPage="true" HorizontalAlignment="HorizontalAlignment.Right" />
-            </PagerContent>
-        </MudTable>
-    </MudItem>
+                <PagerContent>
+                    <MudTablePager DisableRowsPerPage="true" HorizontalAlignment="HorizontalAlignment.Right" />
+                </PagerContent>
 
-    <MudItem xs="12" Class="mb-6">
-        <MudButtonGroup OverrideStyles="false">
+            </MudTable>
+        </MudItem>
 
-            <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined" Color="Color.Primary" Size="Size.Large" />
+        <MudItem xs="12" Class="mb-6">
+            <MudButtonGroup OverrideStyles="false">
 
-            <MudButton Variant="Variant.Outlined" Color="Color.Primary"
-                       Disabled="@_areAccountsSelected" OnClick="OpenHideDialog">Hide</MudButton>
+                <MudTooltip Text="Go to hidden Trades">
+                    <MudIconButton Icon="@Icons.Material.Filled.Delete" Variant="Variant.Outlined"
+                                   Color="Color.Primary" Size="Size.Large" Link="/trades/hidden" />
+                </MudTooltip>
 
-        </MudButtonGroup>
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary"
+                           Disabled="@_areAccountsSelected" OnClick="OpenHideDialog">Hide</MudButton>
 
-    </MudItem>
+            </MudButtonGroup>
 
-</MudGrid>
+        </MudItem>
 
+    </MudGrid>
+</MudContainer>
 
 @code {
 
@@ -92,6 +98,7 @@
             TradeStatus.Breakeven => Color.Default,
             TradeStatus.Win => Color.Success,
             TradeStatus.Loss => Color.Error,
+            _ => Color.Default
         };
     }
 
@@ -137,13 +144,10 @@
         var options = new DialogOptions() { CloseButton = true, MaxWidth = MaxWidth.Small };
         var dialogResult = await DialogService.Show<ModalDialog>("Hide Trades", parameters, options).Result;
 
-        // if OK button has been clicked on the modal perform deletion and reload the current page
+        // if OK button has been clicked on the modal performs batch hide
         if (dialogResult.Cancelled is false)
         {
-            foreach (var account in _table.SelectedItems)
-            {
-                await TradeService.DeleteTrade(account.Id);
-            }
+            await TradeService.BatchSetVisibility(_table.SelectedItems.Select(x => x.Id), true);
             await _table.ReloadServerData();
         }
     }

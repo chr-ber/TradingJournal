@@ -18,7 +18,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Application\Application.csproj" />
-    <ProjectReference Include="..\Infrastructure.Client\Infrastructure.Client.csproj" />
   </ItemGroup>
 
 </Project>

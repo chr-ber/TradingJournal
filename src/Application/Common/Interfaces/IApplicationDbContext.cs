@@ -11,7 +11,7 @@ public interface IApplicationDbContext : IDisposable
 
     DbSet<Execution> Executions { get; set; }
 
-    DbSet<Symbol> Contracts { get; set; }
+    DbSet<Symbol> Symbols { get; set; }
 
     DbSet<Trade> Trades { get; set; }
 

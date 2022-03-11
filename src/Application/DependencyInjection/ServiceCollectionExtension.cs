@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using MediatR;
+﻿using TradingJournal.Application.Common.Interfaces;
+using TradingJournal.Application.ClientServices;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using FluentValidation;
-using TradingJournal.Application.Common.Interfaces;
-using Blazored.Toast;
-using TradingJournal.Application.BackgroundServices;
-using TradingJournal.Application.ClientServices;
+using MediatR;
 
 namespace TradingJournal.Application.DependencyInjection;
 
@@ -19,23 +17,16 @@ public static class ServiceCollectionExtension
         // add validators by scanning assembly
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
-        // add object-object mapper
-        services.AddAutoMapper(Assembly.GetExecutingAssembly());
-
-        services.AddHostedService<AccountSynchronizationService>();
-
         return services;
     }
 
     public static IServiceCollection AddClientApplication(this IServiceCollection services)
     {
-        services.AddScoped<ITradingAccountService,AccountService>();
-        services.AddScoped<ITradeService,TradeService>();
+        services.AddScoped<ITradingAccountService,TradingAccountService>();
         services.AddScoped<IUserPreferncesService, UserPreferncesService>();
-        services.AddScoped<UserInterfaceService>();
         services.AddScoped<IReportService, ReportService>();
-
-        services.AddBlazoredToast();
+        services.AddScoped<ITradeService, TradeService>();
+        services.AddScoped<UserInterfaceService>();
 
         return services;
     }

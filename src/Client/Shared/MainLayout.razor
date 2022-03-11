@@ -1,22 +1,28 @@
 ﻿@inherits LayoutComponentBase
 @inject UserInterfaceService UserInterfaceService
 
-<MudThemeProvider Theme="@Theme.MainTheme()" IsDarkModeChanged="UserInterfaceService.SetDarkMode" IsDarkMode="@UserInterfaceService.UseDarkMode"/>
+<MudThemeProvider Theme="@Theme.MainTheme()" IsDarkModeChanged="UserInterfaceService.SetDarkMode" IsDarkMode="@UserInterfaceService.UseDarkMode" />
 <MudDialogProvider FullWidth="true" MaxWidth="MaxWidth.ExtraSmall" />
 <MudSnackbarProvider />
 
 <MudLayout>
-    <MudAppBar Elevation="1" >
-        <AppBar DrawerToggleCallback="ToggleDrawer" DrawerIsOpen="_isDrawerOpen"/>
+
+    <MudAppBar Elevation="1">
+        <AppBar DrawerToggleCallback="ToggleDrawer" DrawerIsOpen="_isDrawerOpen" />
     </MudAppBar>
-    <MudDrawer Open="@_isDrawerOpen" Elevation="2" Style="border-right: 1px inset grey;">
-        <NavMenu/>
+
+    <MudDrawer Open="@_isDrawerOpen" Elevation="2" Style="border-right: 1px inset grey;"
+                PreserveOpenState="true" DisableOverlay="false"
+                Variant="DrawerVariant.Persistent">
+        <NavMenu />
     </MudDrawer>
+
     <MudMainContent>
         <div class="px-6 py-6">
-        @Body
+            @Body
         </div>
     </MudMainContent>
+
 </MudLayout>
 
 <BlazoredToasts Position="ToastPosition.BottomRight" />

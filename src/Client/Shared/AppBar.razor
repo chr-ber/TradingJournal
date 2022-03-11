@@ -1,11 +1,12 @@
 ﻿
-<MudTooltip Text="@_toolTip">
-    <MudIconButton Icon="@Icons.Rounded.MenuOpen"
-                   OnClick="OnDrawerToggle"
-                   Color="Color.Inherit"
-                   Edge="Edge.Start"
-                   Style="@_style" />
-</MudTooltip>
+    <MudTooltip Text="@_toolTip">
+        <MudIconButton Icon="@Icons.Rounded.MenuOpen"
+                       OnClick="OnDrawerToggle"
+                       Color="Color.Inherit"
+                       Edge="Edge.Start"
+                       Style="@_style" />
+    </MudTooltip>
+
 
 <MudSpacer />
 <MudSpacer />
@@ -21,7 +22,8 @@
     public EventCallback<MouseEventArgs> DrawerToggleCallback { get; set; }
 
     [Parameter]
-    public bool DrawerIsOpen {
+    public bool DrawerIsOpen
+    {
         get => _drawerIsOpen;
         set
         {
@@ -38,7 +40,7 @@
     // update tooltip and flip icon by 180
     public void UpdateDrawerButton()
     {
-        _style = DrawerIsOpen ? "opacity: 0.3;" : "transform: rotate(180deg);";
+        _style = DrawerIsOpen ? "opacity: 0.8;" : "transform: rotate(180deg);";
         _toolTip = DrawerIsOpen ? "Close Menu" : "Open Menu";
     }
 

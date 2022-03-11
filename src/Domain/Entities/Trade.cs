@@ -30,8 +30,6 @@ public class Trade
 
     public decimal Return { get; set; }
 
-    public decimal ReturnPercentage { get; set; }
-
     public decimal NetReturn { get; set; }
 
     public TradeStatus Status { get; set; }
@@ -43,4 +41,6 @@ public class Trade
     public DateTime OpenedAt { get; set; }
 
     public DateTime ClosedAt { get; set; }
+
+    public bool IsHidden { get; set; } = false;
 }
