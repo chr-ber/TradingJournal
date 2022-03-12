@@ -27,12 +27,14 @@ public class GetMonthReportQueryHandler : IRequestHandler<GetMonthReportQuery, M
     {
         var userId = await _currentUserService.GetUserId();
 
+        // get all trades within the last year that have been closed
         var trades = await _context.Trades
             .Where(x => x.OpenedAt > DateTime.UtcNow.AddDays(-365))
             .Where(x => x.TradingAccount.UserId == userId)
             .Where(x => x.Status != TradeStatus.Open)
             .ToListAsync();
 
+        // group trades by month
         var groupedTrades = trades
             .OrderBy(x => x.OpenedAt.Month)
             .GroupBy(x => x.OpenedAt.Month)
@@ -92,6 +94,7 @@ public class GetMonthReportQueryHandler : IRequestHandler<GetMonthReportQuery, M
             }
         }
 
+        // create the chartseries for the mudblzor chart
         report.MonthChart = new()
         {
             new() { Name = "Win", Data = report.MonthStatistics.Select(x => x.WinPercentage * 100).ToArray() },

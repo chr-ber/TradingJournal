@@ -22,7 +22,7 @@ public class WebSocketConnection : IDisposable
 
     public bool IsRunning => _client.IsRunning;
 
-    public event Func<List<WebSocketExecution>,Task> ExecutionEventOccured;
+    public event Func<List<WebSocketExecution>, Task> ExecutionEventOccured;
 
     public WebSocketConnection(
         CancellationToken cancellationToken,
@@ -34,25 +34,18 @@ public class WebSocketConnection : IDisposable
         Network = network;
         Endpoint = endpoint;
 
-        string url = network switch
+        string url = endpoint switch
         {
-            Network.MainNet => endpoint switch
-            {
-                ContractEndpoint.InversePerpetual => "wss://stream.bybit.com/realtime",
-                ContractEndpoint.USDTPerpetual => "wss://stream.bybit.com/realtime_private",
-            },
-            Network.TestNet => endpoint switch
-            {
-                ContractEndpoint.InversePerpetual => "wss://stream-testnet.bybit.com/realtime",
-                ContractEndpoint.USDTPerpetual => "wss://stream-testnet.bybit.com/realtime_private",
-            },
+            ContractEndpoint.InversePerpetual => "wss://stream-testnet.bybit.com/realtime",
+            ContractEndpoint.USDTPerpetual => "wss://stream-testnet.bybit.com/realtime_private",
+            _ => throw new NotImplementedException(),
         };
 
         var exitEvent = new ManualResetEvent(false);
 
         _client = new WebsocketClient(new Uri(url));
         _client.ReconnectTimeout = TimeSpan.FromSeconds(30);
-        _client.ReconnectionHappened.Subscribe(async info =>
+        _client.ReconnectionHappened.Subscribe(info =>
         {
             System.Diagnostics.Debug.WriteLine($"Reconnection happened, type: {info.Type}");
 
@@ -87,10 +80,6 @@ public class WebSocketConnection : IDisposable
                 {
                     var messageData = JsonSerializer.Deserialize<WebSocketMessage<WebSocketExecution>>(obj.Text, options).data;
                     ExecutionEventOccured?.Invoke(messageData.ToList());
-
-                    //foreach (var execution in messageData.Distinct(x => x.order_id))
-                    //ExecutionEventOccured?.Invoke(this, execution);
-                    //ExecutionEventOccured?.Invoke(execution);
                 }
             });
     }
@@ -117,7 +106,7 @@ public class WebSocketConnection : IDisposable
         System.Diagnostics.Debug.WriteLine($"{DateTime.Now} - Authenticating {Endpoint} endpoint on {Network}");
 
         long expiresIn = GetExpirationInUnixMilliseconds();
-        string signature = UtilityService.CreateSignature(APISecret, $"GET/realtime{expiresIn}");
+        string signature = ApiUtilityService.CreateSignature(APISecret, $"GET/realtime{expiresIn}");
         var authString = $"{{ \"op\" : \"auth\" , \"args\" : [ \"{APIKey}\" , \"{expiresIn}\" , \"{signature}\" ] }}";
 
         await _client.SendInstant(authString);

@@ -3,6 +3,7 @@ using TradingJournal.Domain.Entities;
 using TradingJournal.Domain.Enums;
 using MediatR;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore;
 
 namespace TradingJournal.Application.Trades.Queries;
 
@@ -24,21 +25,13 @@ public class GetOpenTradeBySymbolIdQueryHandler : IRequestHandler<GetOpenTradeBy
 
     public async Task<Trade> Handle(GetOpenTradeBySymbolIdQuery request, CancellationToken cancellationToken)
     {
-        try
-        {
-            var trade = _context.Trades.Where(
+            var trade = await _context.Trades.Where(
                     x => x.Status == TradeStatus.Open &&
                     x.SymbolId == request.SymbolId &&
                     x.Side == request.Side)
-                .FirstOrDefault();
+                .FirstOrDefaultAsync();
 
             return trade;
 
-        }
-        catch (Exception ex)
-        {
-            Debug.WriteLine(ex.Message);
-            return null;
-        }
     }
 }

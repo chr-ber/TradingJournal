@@ -8,12 +8,12 @@ public class SetTradingAccountStateCommandValidator : AbstractValidator<SetTradi
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
-    private readonly IUtilityService _byBitUtilityService;
+    private readonly IApiUtilityService _byBitUtilityService;
 
     public SetTradingAccountStateCommandValidator(
         IApplicationDbContext context,
         ICurrentUserService currentUserService,
-        IUtilityService byBitUtilityService)
+        IApiUtilityService byBitUtilityService)
     {
         _context = context;
         _currentUserService = currentUserService;

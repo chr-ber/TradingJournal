@@ -1,10 +1,10 @@
-﻿using TradingJournal.Application.Common.Interfaces;
+﻿using TradingJournal.Infrastructure.Server.ExchangeIntegrations.Bybit;
 using TradingJournal.Infrastructure.Server.Persistence;
 using TradingJournal.Infrastructure.Server.Services;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+using TradingJournal.Application.Common.Interfaces;
 using Microsoft.Extensions.DependencyInjection;
-using TradingJournal.Infrastructure.Server.ExchangeIntegrations.Bybit;
+using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 
 namespace TradingJournal.Infrastructure.Server.DependencyInjection;
 
@@ -24,9 +24,9 @@ public static class ServiceCollectionExtension
 
         services.AddScoped<ICurrentUserService, CurrentUserService>();
 
-        services.AddScoped<IUtilityService, UtilityService>();
+        services.AddScoped<IApiUtilityService, ApiUtilityService>();
 
-        services.AddTransient<ByBitApiWrapper>();
+        services.AddTransient<ApiWrapper>();
 
         // create your service as hosted (runs and stops at host's start and shutdown), as well as gets injected as depedency wherever you require it to be
         services.AddSingleton<IAccountSynchronizationService, AccountSynchronizationService>();

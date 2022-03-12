@@ -5,11 +5,11 @@ using TradingJournal.Application.Common.Interfaces;
 namespace TradingJournal.Application.Entities.Trades.Commands.UpdateJournalingFields;
 public class UpdateJournalingFieldsCommand : IRequest
 {
+    public int TradeId { get; set; }
+
     public string Notes { get; set; }
 
     public int Confluences { get; set; }
-
-    public int TradeId { get; set; }
 }
 
 public class UpdateJournalingFieldsCommandHandler : IRequestHandler<UpdateJournalingFieldsCommand>

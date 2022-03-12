@@ -21,8 +21,8 @@ public class PaginatedList<T>
     public bool HasNextPage => SelectedPage < TotalPages;
 
     // constructor to be used for deserialization only
-   [JsonConstructor]
-    public PaginatedList() {  }
+    [JsonConstructor]
+    public PaginatedList() { }
 
     public PaginatedList(List<T> items, int total, int selectedPage, int pageSize)
     {

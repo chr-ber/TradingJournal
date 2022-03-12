@@ -29,9 +29,9 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     public DbSet<Symbol> Symbols { get; set; }
 
 
-    // apply configurations from ./persistance/configurations folder
     protected override void OnModelCreating(ModelBuilder builder)
     {
+        // apply configurations from ./persistance/configurations folder
         builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
         base.OnModelCreating(builder);

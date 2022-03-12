@@ -1,6 +1,7 @@
 ﻿using TradingJournal.Application.Common.Interfaces;
 using TradingJournal.Application.ClientServices;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Configuration;
 using System.Reflection;
 using FluentValidation;
 using MediatR;
@@ -9,17 +10,19 @@ namespace TradingJournal.Application.DependencyInjection;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddServerApplication(this IServiceCollection services)
+    // extension for loading server dependencies
+    public static IServiceCollection AddServerApplication(this IServiceCollection services, IConfiguration configuration)
     {
         // add mediatr and scan assembly to add handlers, preprocessors, and postprocessors implementations to the container
         services.AddMediatR(Assembly.GetExecutingAssembly());
 
-        // add validators by scanning assembly
+        // add validator implementations by scanning assembly
         services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
         return services;
     }
 
+    // extension for loading client dependencies
     public static IServiceCollection AddClientApplication(this IServiceCollection services)
     {
         services.AddScoped<ITradingAccountService,TradingAccountService>();

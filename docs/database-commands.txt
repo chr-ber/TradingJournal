@@ -1,10 +1,18 @@
-# entity framework migrations
-	switch to the solution root directory
-	run the command (update initial with your migration comment)
-		dotnet ef migrations add "initial" --project src\Infrastructure --startup-project src\Server --output-dir Persistence\Migrations 
+#######################################################################
+# List of Commands for Entity Framework Core .NET Command-line Tools  #
+#######################################################################
+-----------------------------
+Add Migration
+--------
+- switch to the solution root directory
+- run the command (replace initial with your actual migration comment)
 
+dotnet ef migrations add "initial" --project src\Infrastructure --startup-project src\Server --output-dir Persistence\Migrations 
+-----------------------------
+Update Database
+--------
+- switch to the solution root directory
+- run the command
 
-# entity framework - update db
-	switch to the solution root directory
-	run the command
-		dotnet ef database update --project src\Infrastructure --startup-project src\Server 
+dotnet ef database update --project src\Infrastructure --startup-project src\Server 
+-----------------------------

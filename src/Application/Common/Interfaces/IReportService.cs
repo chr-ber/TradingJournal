@@ -6,6 +6,6 @@ namespace TradingJournal.Application.Common.Interfaces;
 
 public interface IReportService
 {
-    Task<WeekdayReportDto> GetWeekdayReport();
+    Task<DayOfWeekReportDto> GetDayOfWeekReport();
     Task<MonthReportDto> GetMonthReport();
 }

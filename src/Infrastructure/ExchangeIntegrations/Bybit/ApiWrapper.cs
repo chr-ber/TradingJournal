@@ -6,12 +6,12 @@ using System.Diagnostics;
 
 namespace TradingJournal.Infrastructure.Server.ExchangeIntegrations.Bybit;
 
-public class ByBitApiWrapper
+public class ApiWrapper
 {
     private WebSocketConnection _wsConnectionInverse;
     private WebSocketConnection _wsConnectionUsdt;
 
-    public event Func<List<WebSocketExecution>, ByBitApiWrapper, bool, decimal, Task> OnReceivedExecution;
+    public event Func<List<WebSocketExecution>, ApiWrapper, bool, decimal, Task> OnReceivedExecution;
 
     public string ApiKey { get; set; }
 
@@ -70,11 +70,11 @@ public class ByBitApiWrapper
 
     public async Task<LinearOrderResult> GetActiveLinearOrderByOrderId(string orderId, string symbol)
     {
-        var timestamp = UtilityService.GetExpirationInUnixMilliseconds();
+        var timestamp = ApiUtilityService.GetExpirationInUnixMilliseconds();
 
         string queryParams = $"api_key={ApiKey}&order_id={orderId}&symbol={symbol}&timestamp={timestamp}";
 
-        string signature = UtilityService.CreateSignature(ApiSecret, queryParams);
+        string signature = ApiUtilityService.CreateSignature(ApiSecret, queryParams);
 
         using (var client = new HttpClient())
         {
@@ -141,9 +141,9 @@ public class ByBitApiWrapper
 
     public async Task<List<RestApiExecution>> GetUserExecutionRecords(string symbol)
     {
-        var timestamp = UtilityService.GetExpirationInUnixMilliseconds();
+        var timestamp = ApiUtilityService.GetExpirationInUnixMilliseconds();
 
-        string signature = UtilityService.CreateSignature(ApiSecret, $"api_key={ApiKey}&symbol={symbol}&timestamp={timestamp}");
+        string signature = ApiUtilityService.CreateSignature(ApiSecret, $"api_key={ApiKey}&symbol={symbol}&timestamp={timestamp}");
 
         using (var client = new HttpClient())
         {

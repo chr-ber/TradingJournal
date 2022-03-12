@@ -24,7 +24,7 @@
 
             <MudItem xs="12">
 
-                <MudTable Items="_trades" Loading="@_loading" LoadingProgressColor="Color.Info">
+                <MudTable Items="_trades" LoadingProgressColor="Color.Info">
 
                     <HeaderContent>
                         <MudTh>Status</MudTh>
@@ -41,7 +41,7 @@
                     </HeaderContent>
 
                     <RowTemplate>
-                        <MudTd DataLabel="Status"><MudText Color="GetStatusColor(context.Status)">@context.Status</MudText></MudTd>
+                        <MudTd DataLabel="Status"><MudText Color="Theme.GetTradeStatusColor(context.Status)">@context.Status</MudText></MudTd>
                         <MudTd DataLabel="Side">@context.Side</MudTd>
                         <MudTd DataLabel="Symbol">@context.Symbol.Name</MudTd>
                         <MudTd DataLabel="Account">@context.TradingAccount.Name</MudTd>
@@ -50,8 +50,8 @@
                         <MudTd DataLabel="Entry">@context.AverageEntryPrice</MudTd>
                         <MudTd DataLabel="Exit">@(context.Status != TradeStatus.Open ? context.AverageExitPrice : "")</MudTd>
                         <MudTd DataLabel="Size">@context.Size</MudTd>
-                        <MudTd DataLabel="Return"><MudText Color="GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
-                        <MudTd DataLabel="Net Return"><MudText Color="GetReturnColor(context.NetReturn)">@context.NetReturn</MudText></MudTd>
+                        <MudTd DataLabel="Return"><MudText Color="Theme.GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
+                        <MudTd DataLabel="Net Return"><MudText Color="Theme.GetReturnColor(context.NetReturn)">@context.NetReturn</MudText></MudTd>
                     </RowTemplate>
 
                 </MudTable>
@@ -61,7 +61,7 @@
 
                 <MudText Typo="Typo.h4" Class="mb-6">Executions</MudText>
 
-                <MudTable Items="_executions" Loading="@_loading" LoadingProgressColor="Color.Info">
+                <MudTable Items="_executions" LoadingProgressColor="Color.Info">
 
                     <HeaderContent>
                         <MudTh>Direction</MudTh>
@@ -74,13 +74,13 @@
                     </HeaderContent>
 
                     <RowTemplate>
-                        <MudTd DataLabel="Direction"><MudText Color="GetDirectionColor(context.Direction)">@context.Direction</MudText></MudTd>
+                        <MudTd DataLabel="Direction"><MudText Color="Theme.GetTradeDirectionColor(context.Direction)">@context.Direction</MudText></MudTd>
                         <MudTd DataLabel="Size">@context.Size</MudTd>
                         <MudTd DataLabel="Position">@context.Position</MudTd>
                         <MudTd DataLabel="Price">@context.Price</MudTd>
                         <MudTd DataLabel="Exit">@context.Value</MudTd>
                         <MudTd DataLabel="Size">@context.Fee</MudTd>
-                        <MudTd DataLabel="Return"><MudText Color="GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
+                        <MudTd DataLabel="Return"><MudText Color="Theme.GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
                     </RowTemplate>
 
                 </MudTable>
@@ -120,7 +120,6 @@
 
 @code {
 
-    private bool _loading;
     private bool _saveInProgress = false;
 
     private string _title;
@@ -140,38 +139,6 @@
         _title = $"{_trade.Side} - {_trade.Symbol.Name}";
 
         await base.OnInitializedAsync();
-    }
-
-    private Color GetStatusColor(TradeStatus result)
-    {
-        return result switch
-        {
-            TradeStatus.Open => Color.Warning,
-            TradeStatus.Breakeven => Color.Default,
-            TradeStatus.Win => Color.Success,
-            TradeStatus.Loss => Color.Error,
-            _ => Color.Default,
-        };
-    }
-
-    private Color GetDirectionColor(TradeDirection direction)
-    {
-        return direction switch
-        {
-            TradeDirection.Open => Color.Success,
-            TradeDirection.Close => Color.Error,
-            _ => Color.Default,
-        };
-    }
-
-    private Color GetReturnColor(decimal amount)
-    {
-        return amount switch
-        {
-            0 => Color.Default,
-            > 0 => Color.Success,
-            < 0 => Color.Error,
-        };
     }
 
     private async Task OnSaveButtonClick()

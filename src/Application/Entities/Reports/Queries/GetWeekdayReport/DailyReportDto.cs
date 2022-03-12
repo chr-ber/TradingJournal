@@ -2,11 +2,11 @@
 
 namespace TradingJournal.Application.Entities.Reports.Queries.GetDailyReport;
 
-public class WeekdayReportDto
+public class DayOfWeekReportDto
 {
-    public List<WeekDayStatistics> MonthStatistics { get; set; } = new();
+    public List<DayOfWeekStatistics> MonthStatistics { get; set; } = new();
 
-    public List<ChartSeries> WeekdayChart { get; set; }
+    public List<ChartSeries> DayOfWeekChart { get; set; }
 
     public string BestPerformingDay { get; set; }
 
@@ -15,7 +15,7 @@ public class WeekdayReportDto
     
 }
 
-public class WeekDayStatistics
+public class DayOfWeekStatistics
 {
     public string DayOfWeek { get; set; }
 

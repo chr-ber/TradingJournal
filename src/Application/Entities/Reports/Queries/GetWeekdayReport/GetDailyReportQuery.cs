@@ -3,41 +3,43 @@ using TradingJournal.Application.Common.Interfaces;
 using TradingJournal.Domain.Entities;
 using TradingJournal.Domain.Enums;
 using MediatR;
-using static TradingJournal.Application.Entities.Reports.Queries.GetDailyReport.WeekdayReportDto;
+using static TradingJournal.Application.Entities.Reports.Queries.GetDailyReport.DayOfWeekReportDto;
 
 namespace TradingJournal.Application.Entities.Reports.Queries.GetDailyReport;
 
-public class GetWeekdayReportQuery : IRequest<WeekdayReportDto>
+public class GetDayOfWeekReportQuery : IRequest<DayOfWeekReportDto>
 {
 
 }
 
-public class GetWeekdayReportQueryHandler : IRequestHandler<GetWeekdayReportQuery, WeekdayReportDto>
+public class GetDayOfWeekReportQueryHandler : IRequestHandler<GetDayOfWeekReportQuery, DayOfWeekReportDto>
 {
     private readonly IApplicationDbContext _context;
     private readonly ICurrentUserService _currentUserService;
 
-    public GetWeekdayReportQueryHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
+    public GetDayOfWeekReportQueryHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
     {
         _context = context;
         _currentUserService = currentUserService;
     }
 
-    public async Task<WeekdayReportDto> Handle(GetWeekdayReportQuery request, CancellationToken cancellationToken)
+    public async Task<DayOfWeekReportDto> Handle(GetDayOfWeekReportQuery request, CancellationToken cancellationToken)
     {
         var userId = await _currentUserService.GetUserId();
 
+        // get all trades within the last year that have been closed
         var trades = await _context.Trades
             .Where(x => x.OpenedAt > DateTime.UtcNow.AddDays(-365))
             .Where(x => x.TradingAccount.UserId == userId)
             .Where(x => x.Status != TradeStatus.Open)
             .ToListAsync();
 
+        // group trades by day of week
         var groupedTrades = trades
             .OrderBy(x => ((int) x.OpenedAt.DayOfWeek + 6 % 7)) // as sunday has value of 0 add 6 to make it end of week
             .GroupBy(x => x.OpenedAt.DayOfWeek);
 
-        var report = new WeekdayReportDto();
+        var report = new DayOfWeekReportDto();
 
         double totalTradesTaken = trades.Count();
         double highestWinRatio = double.MinValue;
@@ -48,11 +50,12 @@ public class GetWeekdayReportQueryHandler : IRequestHandler<GetWeekdayReportQuer
             int currentDay = (i + 1) % 7; // as sunday has value of 0 add 6 to make it end of week
             var group = groupedTrades.FirstOrDefault(x => (int)x.Key == currentDay);
 
-            WeekDayStatistics weekdayStatistics;
+            DayOfWeekStatistics dayofweekStatistics;
 
+            // create empty if no trades took place on the given day
             if (group is null)
             {
-                weekdayStatistics = new WeekDayStatistics()
+                dayofweekStatistics = new DayOfWeekStatistics()
                 {
                     DayOfWeek = ((DayOfWeek)currentDay).ToString(),
                     WinPercentage = 0,
@@ -63,7 +66,7 @@ public class GetWeekdayReportQueryHandler : IRequestHandler<GetWeekdayReportQuer
             }
             else
             {
-                weekdayStatistics = new WeekDayStatistics()
+                dayofweekStatistics = new DayOfWeekStatistics()
                 {
                     DayOfWeek = group.Key.ToString(),
                     WinPercentage = group.Count(x => x.Status == TradeStatus.Win) / totalTradesTaken,
@@ -73,22 +76,23 @@ public class GetWeekdayReportQueryHandler : IRequestHandler<GetWeekdayReportQuer
                 };
             }
 
-            report.MonthStatistics.Add(weekdayStatistics);
+            report.MonthStatistics.Add(dayofweekStatistics);
 
-            if(weekdayStatistics.WinPercentage > highestWinRatio)
+            if(dayofweekStatistics.WinPercentage > highestWinRatio)
             {
-                report.BestPerformingDay = weekdayStatistics.DayOfWeek;
-                highestWinRatio = weekdayStatistics.WinPercentage;
+                report.BestPerformingDay = dayofweekStatistics.DayOfWeek;
+                highestWinRatio = dayofweekStatistics.WinPercentage;
             }
 
-            if (weekdayStatistics.LoosePercentage > highestLossRatio)
+            if (dayofweekStatistics.LoosePercentage > highestLossRatio)
             {
-                report.WorstPerfromingDay = weekdayStatistics.DayOfWeek;
-                highestLossRatio = weekdayStatistics.LoosePercentage;
+                report.WorstPerfromingDay = dayofweekStatistics.DayOfWeek;
+                highestLossRatio = dayofweekStatistics.LoosePercentage;
             }
         }
 
-        report.WeekdayChart = new()
+        // create the chartseries for the mudblzor chart
+        report.DayOfWeekChart = new()
         {
             new() { Name = "Win", Data = report.MonthStatistics.Select(x => x.WinPercentage * 100).ToArray() },
             new() { Name = "Loss", Data = report.MonthStatistics.Select(x => x.LoosePercentage * 100).ToArray() },

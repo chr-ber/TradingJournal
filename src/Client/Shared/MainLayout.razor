@@ -1,7 +1,7 @@
 ﻿@inherits LayoutComponentBase
 @inject UserInterfaceService UserInterfaceService
 
-<MudThemeProvider Theme="@Theme.MainTheme()" IsDarkModeChanged="UserInterfaceService.SetDarkMode" IsDarkMode="@UserInterfaceService.UseDarkMode" />
+<MudThemeProvider Theme="@Theme.MainTheme" IsDarkModeChanged="UserInterfaceService.SetDarkMode" IsDarkMode="@UserInterfaceService.UseDarkMode" />
 <MudDialogProvider FullWidth="true" MaxWidth="MaxWidth.ExtraSmall" />
 <MudSnackbarProvider />
 
@@ -24,8 +24,6 @@
     </MudMainContent>
 
 </MudLayout>
-
-<BlazoredToasts Position="ToastPosition.BottomRight" />
 
 @code {
 

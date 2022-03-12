@@ -21,9 +21,9 @@ public class CurrentUserService : ICurrentUserService
         return await _context.Users.FindAsync(userId);
     }
 
-    public async Task<int> GetUserId()
+    public Task<int> GetUserId()
     {
         string nameIdentifier = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-        return int.Parse(nameIdentifier);
+        return Task.FromResult(int.Parse(nameIdentifier));
     }
 }

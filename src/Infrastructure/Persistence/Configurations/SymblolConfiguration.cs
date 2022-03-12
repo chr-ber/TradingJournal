@@ -4,7 +4,7 @@ using TradingJournal.Domain.Entities;
 
 namespace TradingJournal.Infrastructure.Server.Persistence.Configurations;
 
-public class ContractConfiguration : IEntityTypeConfiguration<Symbol>
+public class SymblolConfiguration : IEntityTypeConfiguration<Symbol>
 {
     public void Configure(EntityTypeBuilder<Symbol> builder)
     {

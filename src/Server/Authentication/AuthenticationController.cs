@@ -2,9 +2,11 @@
 using TradingJournal.Application.Common.Interfaces;
 using TradingJournal.Application.Common.Models;
 
-namespace TradingJournal.Server.Controllers;
+namespace TradingJournal.Server.Authentication;
 
-public class AuthenticationController : ApiControllerBase
+[ApiController]
+[Route("api/[controller]")]
+public class AuthenticationController : ControllerBase
 {
     private readonly IAuthenticationRepository _authRepository;
 

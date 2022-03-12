@@ -8,8 +8,8 @@
     <MudItem xs="12" xl="12">
         <MudText Typo="Typo.h5">@Title</MudText>
 
-        <MudTable Items="@_trades" Loading="@_loading" LoadingProgressColor="Color.Info"
-                  T="Trade" OnRowClick="OnRowClick" Elevation="0"
+        <MudTable Items="@_trades" T="Trade"
+                  OnRowClick="RowClicked" Elevation="0"
                   Hover="true" RowStyle="cursor: pointer;">
 
             <HeaderContent>
@@ -21,11 +21,11 @@
             </HeaderContent>
 
             <RowTemplate>
-                <MudTd DataLabel="Status"><MudText Color="GetStatusColor(context.Status)">@context.Status</MudText></MudTd>
+                <MudTd DataLabel="Status"><MudText Color="Theme.GetTradeStatusColor(context.Status)">@context.Status</MudText></MudTd>
                 <MudTd DataLabel="Side">@context.Side</MudTd>
                 <MudTd DataLabel="Symbol">@context.Symbol.Name</MudTd>
-                <MudTd DataLabel="Size">@context.Size</MudTd>
-                <MudTd DataLabel="Return"><MudText Color="GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
+                <MudTd DataLabel="Size">@context.Size.ToFormatedString()</MudTd>
+                <MudTd DataLabel="Return"><MudText Color="Theme.GetReturnColor(context.Return)">@context.Return.ToFormatedString()</MudText></MudTd>
             </RowTemplate>
 
         </MudTable>
@@ -34,8 +34,6 @@
 
 
 @code {
-
-    private bool _loading;
 
     private List<Trade> _trades;
 
@@ -50,35 +48,16 @@
 
     protected override async Task OnInitializedAsync()
     {
+        // load trades and assign them to binded field
         await TradeService.LoadTrades(1, MaxTrades, Statuses);
         _trades = TradeService.PaginatedList.Items;
+
         await base.OnInitializedAsync();
     }
 
-    private void OnRowClick(TableRowClickEventArgs<Trade> args)
+    private void RowClicked(TableRowClickEventArgs<Trade> args)
     {
         NavigationManager.NavigateTo($"/trades/{args.Item.Id}");
-    }
-
-    private Color GetStatusColor(TradeStatus result)
-    {
-        return result switch
-        {
-            TradeStatus.Open => Color.Warning,
-            TradeStatus.Breakeven => Color.Default,
-            TradeStatus.Win => Color.Success,
-            TradeStatus.Loss => Color.Error,
-        };
-    }
-
-    private Color GetReturnColor(decimal amount)
-    {
-        return amount switch
-        {
-            0 => Color.Default,
-            > 0 => Color.Success,
-            < 0 => Color.Error,
-        };
     }
 }
 

@@ -1,6 +1,6 @@
 ﻿namespace TradingJournal.Application.Common.Interfaces;
 
-public interface IUtilityService
+public interface IApiUtilityService
 {
     Task<bool> IsReadOnlyAPICredentials(string key, string secret);
 }

@@ -2,7 +2,5 @@
 
 public enum TradeDirection
 {
-    Open,
-
-    Close,
+    Open, Close
 }

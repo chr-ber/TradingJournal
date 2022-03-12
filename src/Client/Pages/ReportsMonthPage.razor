@@ -62,8 +62,8 @@
         _series = _monthReport.MonthChart;
         _labels = _monthReport.MonthStatistics.Select(x => x.Month).ToArray();
 
-        _chartOptions = new();
-        _chartOptions.ChartPalette = new []{ "#3ccdb6","#a1366c", "#cda03c" };
+        // set theme colors
+        _chartOptions = Theme.ReturnColorChartOptions();
 
         await base.OnInitializedAsync();
     }

@@ -9,10 +9,10 @@ namespace TradingJournal.Server.Controllers;
 public class ReportsController : ApiControllerBase
 {
 
-    [HttpGet("weekday")]
-    public async Task<ActionResult<WeekdayReportDto>> GetWeeddayReport()
+    [HttpGet("dayofweek")]
+    public async Task<ActionResult<DayOfWeekReportDto>> GetWeeddayReport()
     {
-        return await Mediator.Send(new GetWeekdayReportQuery());
+        return await Mediator.Send(new GetDayOfWeekReportQuery());
     }
 
     [HttpGet("month")]

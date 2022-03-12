@@ -20,11 +20,13 @@ public class ApplicationDbContextSeed
 
                 if (context.Database.IsSqlServer())
                 {
+                    // apply pending migrations, creates database if it does not exist
                     context.Database.Migrate();
 
+                    // seed sample data if enabled in appsettings.json
                     if (seedSampleData)
                     {
-                        await ApplicationDbContextSeed.SeedSampleData(context);
+                        await SeedSampleData(context);
                     }
                 }
             }

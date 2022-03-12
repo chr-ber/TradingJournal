@@ -26,7 +26,7 @@ public class AccountSynchronizationService : BackgroundService, IAccountSynchron
     // if _mediator is null get it from IServiceProvider and assign it to the local variable
     protected ISender Mediator => _mediator ??= _services.CreateScope().ServiceProvider.GetRequiredService<ISender>();
 
-    private Dictionary<ByBitApiWrapper, int> _apiWrapperAccountIdMap = new();
+    private Dictionary<ApiWrapper, int> _apiWrapperAccountIdMap = new();
 
     public AccountSynchronizationService(
         IServiceProvider services,
@@ -38,7 +38,7 @@ public class AccountSynchronizationService : BackgroundService, IAccountSynchron
         _logger = logger;
     }
 
-    public async Task DeactivateAccount(TradingAccount account)
+    public Task DeactivateAccount(TradingAccount account)
     {
         if (account == null)
             throw new ArgumentNullException(nameof(account));
@@ -47,11 +47,13 @@ public class AccountSynchronizationService : BackgroundService, IAccountSynchron
 
         // if account has no active connection
         if (accountIdPair.Key is null)
-            return;
+            return Task.CompletedTask;
 
         accountIdPair.Key.Dispose();
 
         _apiWrapperAccountIdMap.Remove(accountIdPair.Key);
+
+        return Task.CompletedTask;
     }
 
     public async Task ActivateAccount(TradingAccount account)
@@ -62,11 +64,11 @@ public class AccountSynchronizationService : BackgroundService, IAccountSynchron
         await CreateAPIWrapper(account);
     }
 
-    private async Task CreateAPIWrapper(TradingAccount account)
+    private Task CreateAPIWrapper(TradingAccount account)
     {
         using (var scope = _services.CreateScope())
         {
-            var apiWrapper = scope.ServiceProvider.GetRequiredService<ByBitApiWrapper>();
+            var apiWrapper = scope.ServiceProvider.GetRequiredService<ApiWrapper>();
 
             apiWrapper.ApiKey = account.APIKey;
             apiWrapper.ApiSecret = account.APISecret;
@@ -76,7 +78,9 @@ public class AccountSynchronizationService : BackgroundService, IAccountSynchron
             apiWrapper.CreateWebSocketConnection();
 
             _apiWrapperAccountIdMap[apiWrapper] = account.Id;
+
         }
+        return Task.CompletedTask;
     }
 
     protected async override Task ExecuteAsync(CancellationToken stoppingToken)
@@ -99,7 +103,8 @@ public class AccountSynchronizationService : BackgroundService, IAccountSynchron
         }
     }
 
-    private async Task NewExecutionHandler(List<WebSocketExecution> executions, ByBitApiWrapper apiWrapper, bool isClosing, decimal quantity)
+    // will be called whenever there is a new execution received via weboscket connection
+    private async Task NewExecutionHandler(List<WebSocketExecution> executions, ApiWrapper apiWrapper, bool isClosing, decimal quantity)
     {
         // get any of the executions in the list
         var execution = executions.FirstOrDefault();

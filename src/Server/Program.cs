@@ -19,7 +19,7 @@ builder.Services.AddFluentValidation();
 // Add dependencies from Infrastructure library
 builder.Services.AddServerInfrastructure(builder.Configuration);
 // Add dependencies from Application library
-builder.Services.AddServerApplication();
+builder.Services.AddServerApplication(builder.Configuration);
 // Add custom authentication
 builder.Services.AddCustomAuthentication(builder.Configuration);
 
@@ -49,7 +49,9 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // apply pending migrations and seed database if enabled
-await ApplicationDbContextSeed.SeedAndMigrateDatabase(app.Services, builder.Configuration.GetValue<bool>("SeedDatabaseWithSampleData"));
+await ApplicationDbContextSeed.SeedAndMigrateDatabase(
+    app.Services,
+    builder.Configuration.GetValue<bool>("SeedDatabaseWithSampleData"));
 
 app.MapRazorPages();
 app.MapControllers();

@@ -6,8 +6,9 @@ using System.Text.Json;
 
 namespace TradingJournal.Infrastructure.Server.ExchangeIntegrations.Bybit;
 
-public class UtilityService : IUtilityService
+public class ApiUtilityService : IApiUtilityService
 {
+    // get the permissions from the api key info endpoint and only validate if the provided key is read-only
     public async Task<bool> IsReadOnlyAPICredentials(string key, string secret)
     {
         var timestamp = GetExpirationInUnixMilliseconds();
@@ -30,6 +31,7 @@ public class UtilityService : IUtilityService
         }
     }
 
+    // create signature to sign the request
     internal static string CreateSignature(string secret, string message)
     {
         byte[] signatureBytes = Hmacsha256(Encoding.UTF8.GetBytes(secret), Encoding.UTF8.GetBytes(message));

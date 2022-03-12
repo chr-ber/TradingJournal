@@ -14,11 +14,11 @@ public class ReportService : ClientServiceBase, IReportService
         _http = http;
     }
 
-    public async Task<WeekdayReportDto> GetWeekdayReport()
+    public async Task<DayOfWeekReportDto> GetDayOfWeekReport()
     {
-        string response = await _http.GetStringAsync("api/reports/weekday");
+        string response = await _http.GetStringAsync("api/reports/dayofweek");
 
-        return JsonSerializer.Deserialize<WeekdayReportDto>(response, _jsonOptions);
+        return JsonSerializer.Deserialize<DayOfWeekReportDto>(response, _jsonOptions);
     }
 
     public async Task<MonthReportDto> GetMonthReport()

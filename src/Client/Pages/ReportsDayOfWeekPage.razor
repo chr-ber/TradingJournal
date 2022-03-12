@@ -1,13 +1,13 @@
-﻿@page "/reports/weekday"
+﻿@page "/reports/dayofweek"
 
 @using TradingJournal.Application.Entities.Reports.Queries.GetDailyReport
 @inject IReportService ReportService
 
 @attribute [Authorize]
 
-<PageTitle>Report Weekday</PageTitle>
+<PageTitle>Report Day of Week</PageTitle>
 
-<MudText Typo="Typo.h4">Report Weekday</MudText>
+<MudText Typo="Typo.h4">Report Day of Week</MudText>
 
 <MudContainer Class="mt-8 px-4" MaxWidth="MaxWidth.False">
     <MudGrid>
@@ -31,7 +31,7 @@
             <MudItem xs="12" md="4">
                 <MudPaper Elevation="2" Class="pa-4" Style="height: 100%;">
                     <MudText Typo="Typo.h6" Style="margin-bottom:12px;">About</MudText>
-                    <MudText Typo="Typo.body1">Lists your trade results in percentages calculated for each weekday.</MudText>
+                    <MudText Typo="Typo.body1">Lists your trade results in percentages calculated for each day of the week.</MudText>
                     <MudText Typo="Typo.body1">Only considers the data within the last 365 days.</MudText>
                     <br />
                     <MudText Typo="Typo.h6">Summary</MudText>
@@ -51,7 +51,7 @@
 
     private int _index = -1; //default value cannot be 0 -> first selectedindex is 0.
 
-    private WeekdayReportDto _dailyReport;
+    private DayOfWeekReportDto _dailyReport;
     private List<ChartSeries> _series;
     private ChartOptions _chartOptions;
 
@@ -59,13 +59,15 @@
 
     protected override async Task OnInitializedAsync()
     {
-        _dailyReport = await ReportService.GetWeekdayReport();
+        // load report
+        _dailyReport = await ReportService.GetDayOfWeekReport();
 
-        _series = _dailyReport.WeekdayChart;
+        // set data and labels
+        _series = _dailyReport.DayOfWeekChart;
         _labels = _dailyReport.MonthStatistics.Select(x => x.DayOfWeek).ToArray();
 
-        _chartOptions = new();
-        _chartOptions.ChartPalette = new []{ "#3ccdb6","#a1366c", "#cda03c" };
+        // set theme colors
+        _chartOptions = Theme.ReturnColorChartOptions();
 
         await base.OnInitializedAsync();
     }

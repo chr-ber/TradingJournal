@@ -14,7 +14,7 @@
 
         <MudItem xs="12" lg="6" xl="4">
             <MudTable ServerData="@(new Func<TableState, Task<TableData<TradingAccount>>>(ServerReload))"
-                      Loading="@_loading" LoadingProgressColor="Color.Info" MultiSelection="true"
+                      LoadingProgressColor="Color.Info" MultiSelection="true"
                       SelectedItemsChanged="SelectionChanged" T="TradingAccount"
                       @ref="_table">
 
@@ -29,7 +29,7 @@
 
                 <RowTemplate>
                     <MudTd DataLabel="Name">@context.Name</MudTd>
-                    <MudTd DataLabel="Name"><MudText Color="GetStatusColor(context.Status)">@context.Status</MudText></MudTd>
+                    <MudTd DataLabel="Name"><MudText Color="Theme.GetAccountStatusColor(context.Status)">@context.Status</MudText></MudTd>
                 </RowTemplate>
 
                 <PagerContent>
@@ -100,20 +100,9 @@
     private bool _debugSelection = false;
 
     private bool _areAccountsSelected = true;
-    private bool _loading;
 
     private MudTable<TradingAccount> _table;
     private HashSet<TradingAccount> _selectedItems;
-
-    private Color GetStatusColor(TradingAccountStatus status)
-    {
-        return status switch
-        {
-            TradingAccountStatus.Enabled => Color.Success,
-            TradingAccountStatus.Disabled => Color.Warning,
-            _ => Color.Default,
-        };
-    }
 
     private void SelectionChanged(HashSet<TradingAccount> selectedAccounts)
     {
