@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using TradingJournal.Domain.Enums;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using TradingJournal.Domain.Events;
 
 namespace Microsoft.AspNetCore.Builder;
 
@@ -41,7 +42,7 @@ public class ApplicationDbContextSeed
 
     public static async Task SeedSampleData(ApplicationDbContext context)
     {
-        // only add sample data after clean installation -> empty user table
+        // only add sample data when user table is still empty
         if (!context.Users.Any())
         {
             await SeedUsers(context);
@@ -165,8 +166,14 @@ public class ApplicationDbContextSeed
     {
         var trader1 = context.Users.FirstOrDefault(x => x.DisplayName == "Trader1");
 
-        context.TradingAccounts.Add(new TradingAccount { Name = "MainAccount", APIKey = "O81W5WnFeXlfVEe1BB", APISecret = "GN8zk27a7fS6vCweTgyxgtobYi6LfEfQUfYF", User = trader1 });
-        context.TradingAccounts.Add(new TradingAccount { Name = "LearningAccount", APIKey = "XAXWVXPNTPLUMJRHOI", APISecret = "TOCXLKXQBDWJADFYFHHKINDADLNHOKMPYQTE", User = trader1 });
+        var account1 = new TradingAccount { Name = "MainAccount", APIKey = "O81W5WnFeXlfVEe1BB", APISecret = "GN8zk27a7fS6vCweTgyxgtobYi6LfEfQUfYF", User = trader1 };
+        var account2 = new TradingAccount { Name = "LearningAccount", APIKey = "XAXWVXPNTPLUMJRHOI", APISecret = "TOCXLKXQBDWJADFYFHHKINDADLNHOKMPYQTE", User = trader1 };
+
+        account1.DomainEvents.Add(new TradingAccountActivated(account1));
+        account2.DomainEvents.Add(new TradingAccountActivated(account2));
+
+        context.TradingAccounts.Add(account1);
+        context.TradingAccounts.Add(account2);
 
         await context.SaveChangesAsync();
     }
