@@ -57,13 +57,12 @@ public class ApplicationDbContextSeed
     {
         var accounts = await context.TradingAccounts.ToListAsync();
         var symbols = await context.Symbols.ToListAsync();
-
-        foreach(var account in accounts) { 
-
-        int numberOfTrades = 400;
-        int tradesPerMonth = numberOfTrades / 12;
-
         var random = new Random();
+
+        foreach (var account in accounts)
+        {
+            int numberOfTrades = random.Next(300, 600);
+            int tradesPerMonth = numberOfTrades / 12;
 
             for (int m = 0; m < numberOfTrades; m++)
             {

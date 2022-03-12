@@ -17,7 +17,7 @@
 
 
             <MudTable ServerData="@(new Func<TableState, Task<TableData<Trade>>>(ServerReload))"
-                      MultiSelection="true" LoadingProgressColor="Color.Info"
+                      MultiSelection="true" Loading="_loading" LoadingProgressColor="Color.Primary"
                       SelectedItemsChanged="SelectionChanged" T="Trade" OnRowClick="OnRowClick"
                       Hover="true" RowStyle="cursor: pointer;" @ref="_table" Breakpoint="Breakpoint.Sm">
 
@@ -75,6 +75,7 @@
 @code {
 
     private bool _areAccountsSelected = true;
+    private bool _loading = true;
 
     private MudTable<Trade> _table;
     private HashSet<Trade> _selectedItems;
@@ -99,9 +100,10 @@
     {
         // clear selection
         _selectedItems = new();
-
         // mudblazor pagination starts at 0 while backend starts at 1
-        await TradeService.LoadTrades(state.Page + 1);
+        await TradeService.LoadTrades(state.Page + 1, hidden: true);
+        // hide loading bar
+        _loading = false;
 
         return new TableData<Trade>()
             {
@@ -129,4 +131,3 @@
         }
     }
 }
-

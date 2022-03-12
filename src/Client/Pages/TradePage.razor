@@ -16,12 +16,10 @@
 
         @if (_trade == null)
         {
-
             <MudText>Loading Trade...</MudText>
         }
         else
         {
-
             <MudItem xs="12">
 
                 <MudTable Items="_trades" LoadingProgressColor="Color.Info">
@@ -111,7 +109,7 @@
                 {
                     <MudProgressLinear Color="Color.Primary" Indeterminate="true" Class="my-7" />
                 }
-                <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="OnSaveButtonClick">Save</MudButton>
+                <MudButton Variant="Variant.Outlined" Color="Color.Primary" OnClick="OnSaveButtonClick" Disabled="_saveInProgress">Save</MudButton>
             </MudItem>
         }
 
@@ -133,6 +131,7 @@
 
     protected override async Task OnInitializedAsync()
     {
+        // get trade and update page fields
         _trade = await TradeService.GetTrade(Id);
         _trades = new() { _trade };
         _executions = _trade.Executions;
@@ -152,6 +151,7 @@
                 Confluences = _trade.Confluences,
             });
 
+        // add short delay to avoid save being spammed
         await Task.Delay(600);
 
         _saveInProgress = false;
