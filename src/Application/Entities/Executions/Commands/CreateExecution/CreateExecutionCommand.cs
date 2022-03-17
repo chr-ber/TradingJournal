@@ -62,8 +62,6 @@ public class CreateExecutionCommandHandler : IRequestHandler<CreateExecutionComm
             Value = request.Size * request.Price,
         };
 
-        //entity.DomainEvents.Add(new TradingAccountCreatedEvent(entity));
-
         _context.Executions.Add(entity);
 
         await _context.SaveChangesAsync(cancellationToken);
@@ -71,4 +69,3 @@ public class CreateExecutionCommandHandler : IRequestHandler<CreateExecutionComm
         return entity.Id;
     }
 }
-

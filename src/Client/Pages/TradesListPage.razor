@@ -101,7 +101,7 @@
         // clear selection
         _selectedItems = new();
         // mudblazor pagination starts at 0 while backend starts at 1
-        await TradeService.LoadTrades(state.Page + 1, hidden: true);
+        await TradeService.LoadTrades(state.Page + 1, hidden: false);
         // hide loading bar
         _loading = false;
 

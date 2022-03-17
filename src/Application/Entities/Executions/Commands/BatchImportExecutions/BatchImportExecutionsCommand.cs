@@ -50,11 +50,12 @@ public class BatchImportExecutionsCommandHandler : IRequestHandler<BatchImportEx
 
     public async Task<Unit> Handle(BatchImportExecutionsCommand request, CancellationToken cancellationToken)
     {
-        if (request.Executions == null || request.Executions.Count == 0)
-            throw new ArgumentNullException(nameof(request.Executions),"Provided list of executions is null or empty.");
+        if (request.Executions == null)
+            throw new ArgumentNullException(nameof(request.Executions));
 
         Trade trade;
 
+        // if no tradeid provided create new trade
         if(request.TradeId == null)
         {
             trade = new Trade()
@@ -66,6 +67,7 @@ public class BatchImportExecutionsCommandHandler : IRequestHandler<BatchImportEx
             };
             _context.Trades.Add(trade);
         }
+        // get trade from db
         else
         {
             trade = _context.Trades.FirstOrDefault(x => x.Id == request.TradeId);
@@ -74,6 +76,7 @@ public class BatchImportExecutionsCommandHandler : IRequestHandler<BatchImportEx
         decimal lastPosition = trade?.Position ?? 0;
         decimal preExecutionRemovedSize = trade.Size - trade.Position;
 
+        // process each exeuction in the request body
         for (int i = 0; i < request.Executions.Count; i++)
         {
             decimal newPosition = request.IsClosing ? lastPosition - request.Executions[i].Position : lastPosition + request.Executions[i].Position;
@@ -142,8 +145,6 @@ public class BatchImportExecutionsCommandHandler : IRequestHandler<BatchImportEx
                 _ => TradeStatus.Breakeven,
             };
         }
-
-        //entity.DomainEvents.Add(new TradingAccountCreatedEvent(entity));
 
         await _context.SaveChangesAsync(cancellationToken);
 

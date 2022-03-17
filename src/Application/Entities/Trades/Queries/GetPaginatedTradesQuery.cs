@@ -41,12 +41,9 @@ public class GetPaginatedTradesQueryHandler
             .Include(x => x.Symbol)
             .Where(x => x.TradingAccount.UserId == userId)
             .Where(x => x.IsHidden == request.Hidden)
+            // filter by state if list of states was provided
             .Where(x => request.IncludedStates != null ? request.IncludedStates.Contains(x.Status) : true)
             .OrderByDescending(x => x.OpenedAt);
-
-        //if (request.InlucdedStates != null)
-        //    //response.Where(x => request.InlucdedStates.Contains(x.Status));
-        //    response.Where(x => x.Status == TradeStatus.Win);
 
         return await response.PaginatedListAsync(request.PageNumber, request.PageSize);
     }

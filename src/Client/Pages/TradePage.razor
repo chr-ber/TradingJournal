@@ -45,11 +45,11 @@
                         <MudTd DataLabel="Account">@context.TradingAccount.Name</MudTd>
                         <MudTd DataLabel="Opened">@context.OpenedAt</MudTd>
                         <MudTd DataLabel="Closed">@($"{(context.Status == TradeStatus.Open ? "" : context.ClosedAt )}")</MudTd>
-                        <MudTd DataLabel="Entry">@context.AverageEntryPrice</MudTd>
-                        <MudTd DataLabel="Exit">@(context.Status != TradeStatus.Open ? context.AverageExitPrice : "")</MudTd>
-                        <MudTd DataLabel="Size">@context.Size</MudTd>
-                        <MudTd DataLabel="Return"><MudText Color="Theme.GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
-                        <MudTd DataLabel="Net Return"><MudText Color="Theme.GetReturnColor(context.NetReturn)">@context.NetReturn</MudText></MudTd>
+                        <MudTd DataLabel="Entry">@context.AverageEntryPrice.ToFormatedString()</MudTd>
+                        <MudTd DataLabel="Exit">@(context.Status != TradeStatus.Open ? context.AverageExitPrice.ToFormatedString() : "")</MudTd>
+                        <MudTd DataLabel="Size">@context.Size.ToFormatedString()</MudTd>
+                        <MudTd DataLabel="Return"><MudText Color="Theme.GetReturnColor(context.Return)">@context.Return.ToFormatedString()</MudText></MudTd>
+                        <MudTd DataLabel="Net Return"><MudText Color="Theme.GetReturnColor(context.NetReturn)">@context.NetReturn.ToFormatedString()</MudText></MudTd>
                     </RowTemplate>
 
                 </MudTable>
@@ -73,12 +73,12 @@
 
                     <RowTemplate>
                         <MudTd DataLabel="Direction"><MudText Color="Theme.GetTradeDirectionColor(context.Direction)">@context.Direction</MudText></MudTd>
-                        <MudTd DataLabel="Size">@context.Size</MudTd>
-                        <MudTd DataLabel="Position">@context.Position</MudTd>
-                        <MudTd DataLabel="Price">@context.Price</MudTd>
-                        <MudTd DataLabel="Exit">@context.Value</MudTd>
-                        <MudTd DataLabel="Size">@context.Fee</MudTd>
-                        <MudTd DataLabel="Return"><MudText Color="Theme.GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
+                        <MudTd DataLabel="Size">@context.Size.ToFormatedString()</MudTd>
+                        <MudTd DataLabel="Position">@context.Position.ToFormatedString()</MudTd>
+                        <MudTd DataLabel="Price">@context.Price.ToFormatedString()</MudTd>
+                        <MudTd DataLabel="Exit">@context.Value.ToFormatedString()</MudTd>
+                        <MudTd DataLabel="Size">@context.Fee.ToFormatedString()</MudTd>
+                        <MudTd DataLabel="Return"><MudText Color="Theme.GetReturnColor(context.Return)">@context.Return.ToFormatedString()</MudText></MudTd>
                     </RowTemplate>
 
                 </MudTable>

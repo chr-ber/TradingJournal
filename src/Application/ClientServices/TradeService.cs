@@ -26,8 +26,6 @@ public class TradeService : ClientServiceBase, ITradeService
         IEnumerable<TradeStatus> includedStates = null,
         bool hidden = false)
     {
-        //TradingAccounts = await _http.GetFromJsonAsync<PaginatedList<TradingAccount>>("api/accounts");
-
         Dictionary<string, string> query = new()
         {
             ["pageNumber"] = pageNumber.ToString(),

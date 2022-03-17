@@ -12,7 +12,9 @@
 
 <MudContainer Class="mt-8 px-4" MaxWidth="MaxWidth.False">
     <MudGrid>
-        <MudItem xs="12" md="12" xl="8">
+
+        <MudItem xs="12">
+
 
             <MudTable ServerData="@(new Func<TableState, Task<TableData<Trade>>>(ServerReload))"
                       MultiSelection="true" Loading="_loading" LoadingProgressColor="Color.Primary"
@@ -23,22 +25,26 @@
                     <MudTh>Status</MudTh>
                     <MudTh>Side</MudTh>
                     <MudTh>Symbol</MudTh>
+                    <MudTh>Account</MudTh>
                     <MudTh>Opened</MudTh>
                     <MudTh>Entry</MudTh>
                     <MudTh>Exit</MudTh>
                     <MudTh>Size</MudTh>
                     <MudTh>Return</MudTh>
+                    <MudTh>Net Return</MudTh>
                 </HeaderContent>
 
                 <RowTemplate>
                     <MudTd DataLabel="Status"><MudText Color="Theme.GetTradeStatusColor(context.Status)">@context.Status</MudText></MudTd>
                     <MudTd DataLabel="Side">@context.Side</MudTd>
                     <MudTd DataLabel="Symbol">@context.Symbol.Name</MudTd>
+                    <MudTd DataLabel="Account">@context.TradingAccount.Name</MudTd>
                     <MudTd DataLabel="Opened">@context.OpenedAt</MudTd>
-                    <MudTd DataLabel="Entry">@context.AverageEntryPrice</MudTd>
-                    <MudTd DataLabel="Exit">@(context.Status != TradeStatus.Open ? context.AverageExitPrice : "")</MudTd>
-                    <MudTd DataLabel="Size">@context.Size</MudTd>
-                    <MudTd DataLabel="Return"><MudText Color="Theme.GetReturnColor(context.Return)">@context.Return</MudText></MudTd>
+                    <MudTd DataLabel="Entry">@context.AverageEntryPrice.ToFormatedString()</MudTd>
+                    <MudTd DataLabel="Exit">@(context.Status != TradeStatus.Open ? context.AverageExitPrice.ToFormatedString() : "")</MudTd>
+                    <MudTd DataLabel="Size">@context.Size.ToFormatedString()</MudTd>
+                    <MudTd DataLabel="Return"><MudText Color="Theme.GetReturnColor(context.Return)">@context.Return.ToFormatedString()</MudText></MudTd>
+                    <MudTd DataLabel="Net Return"><MudText Color="Theme.GetReturnColor(context.NetReturn)">@context.NetReturn.ToFormatedString()</MudText></MudTd>
                 </RowTemplate>
 
                 <PagerContent>

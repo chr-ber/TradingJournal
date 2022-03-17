@@ -23,6 +23,7 @@ public class AccountSynchronizationService : BackgroundService, IAccountSynchron
 
     private CancellationToken _stoppingToken;
     private ISender _mediator = null!;
+
     // if _mediator is null get it from IServiceProvider and assign it to the local variable
     protected ISender Mediator => _mediator ??= _services.CreateScope().ServiceProvider.GetRequiredService<ISender>();
 
@@ -78,11 +79,11 @@ public class AccountSynchronizationService : BackgroundService, IAccountSynchron
             apiWrapper.CreateWebSocketConnection();
 
             _apiWrapperAccountIdMap[apiWrapper] = account.Id;
-
         }
         return Task.CompletedTask;
     }
 
+    // method is called when the service is started
     protected async override Task ExecuteAsync(CancellationToken stoppingToken)
     {
         _stoppingToken = stoppingToken;

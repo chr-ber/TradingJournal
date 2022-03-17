@@ -17,7 +17,7 @@
                 <MudTh>Side</MudTh>
                 <MudTh>Symbol</MudTh>
                 <MudTh>Size</MudTh>
-                <MudTh>Return</MudTh>
+                <MudTh>Net Return</MudTh>
             </HeaderContent>
 
             <RowTemplate>
@@ -25,7 +25,7 @@
                 <MudTd DataLabel="Side">@context.Side</MudTd>
                 <MudTd DataLabel="Symbol">@context.Symbol.Name</MudTd>
                 <MudTd DataLabel="Size">@context.Size.ToFormatedString()</MudTd>
-                <MudTd DataLabel="Return"><MudText Color="Theme.GetReturnColor(context.Return)">@context.Return.ToFormatedString()</MudText></MudTd>
+                <MudTd DataLabel="Net Return"><MudText Color="Theme.GetReturnColor(context.NetReturn)">@context.Return.ToFormatedString()</MudText></MudTd>
             </RowTemplate>
 
         </MudTable>
