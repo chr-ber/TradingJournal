@@ -1,0 +1,28 @@
+﻿<MudItem sm="12" lg="6" xl="4">
+    <MudPaper Style="padding:12px;">
+
+        <MudText Typo="Typo.h6" Style="margin-bottom:12px;">About</MudText>
+        <MudText Typo="Typo.body1">All trades are automatically imported via the ByBit API.</MudText>
+        <MudText Typo="Typo.body1">Therefore it is necessary to create API credentials for each of your trading accounts and add them to the system.</MudText>
+        <MudText Typo="Typo.body1">Please follow the instructions below.</MudText>
+
+        <MudText Typo="Typo.h6" Style="margin-top:12px;">Instructions</MudText>
+
+        <ol style="padding:12px;">
+            <li><MudText Typo="Typo.body1">Log in to <MudLink Href="https://bybit.com" Target="_blank">https://bybit.com</MudLink></MudText></li>
+            <li><MudText Typo="Typo.body1">Navigate to: User Profile -> Account & Security -> Api Management</MudText></li>
+            <li><MudText Typo="Typo.body1">Click on Create New Key</MudText></li>
+            <li><MudText Typo="Typo.body1">Select Api Key Usage -> API Transaction</MudText></li>
+            <li><MudText Typo="Typo.body1">Enter a Name for your API key</MudText></li>
+            <li><MudText Typo="Typo.body1">Check the Read-Only flag. <MudText Inline="true" Color="Color.Error">Non Read-Only Api Keys will be rejected</MudText></MudText></li>
+            <li><MudText Typo="Typo.body1">Select Contract -> (Orders, Positions) , Spot -> (Trade), Wallet -> (Account Transfer, Subaccount Transfer)</MudText></li>
+            <li><MudText Typo="Typo.body1">Copy your API Key and Secret Key here on the import page</MudText></li>
+            <li><MudText Typo="Typo.body1">Click Submit</MudText></li>
+        </ol>
+
+        <MudText Typo="Typo.body1">Please note that the instructions concerning the creation of the credentials are up to change, we recommend to follow the instructions outlined on the <MudLink Target="_blank" Href="https://help.bybit.com/hc/en-us/articles/360039749613-How-to-create-a-new-API-key-">Bybit documentation</MudLink> directly.</MudText>
+        <br />
+        <MudText Typo="Typo.body1">Once the credneitals have been submitted on this page, all new trades will be recorded and availalbe  under the <MudLink Target="_blank" Href="/trades">Trades</MudLink> section.</MudText>
+
+    </MudPaper>
+</MudItem>

@@ -2,5 +2,5 @@
 
 public enum TradingAccountStatus
 {
-    Enabled, Disabled, Starting, ActionRequired
+    Enabled, Disabled
 }

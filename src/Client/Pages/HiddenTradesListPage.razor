@@ -15,11 +15,11 @@
 
         <MudItem xs="12">
 
-
             <MudTable ServerData="@(new Func<TableState, Task<TableData<Trade>>>(ServerReload))"
-                      MultiSelection="true" Loading="_loading" LoadingProgressColor="Color.Primary"
-                      SelectedItemsChanged="SelectionChanged" T="Trade" OnRowClick="OnRowClick"
-                      Hover="true" RowStyle="cursor: pointer;" @ref="_table" Breakpoint="Breakpoint.Sm">
+                      MultiSelection="true" Loading="_loading" LoadingProgressColor="Theme.GetLoadingProgressColor()"
+                      SelectedItemsChanged="SelectionChanged" SelectedItems="_selectedItems" T="Trade"
+                      Hover="true" RowStyle="cursor: pointer;" @ref="_table" Breakpoint="Breakpoint.Sm"
+                      OnRowClick="OpenSelectedTrade">
 
                 <HeaderContent>
                     <MudTh>Status</MudTh>
@@ -63,7 +63,7 @@
                 </MudTooltip>
 
                 <MudButton Variant="Variant.Outlined" Color="Color.Primary"
-                           Disabled="@_areAccountsSelected" OnClick="OpenUnHideDialog">Unhide</MudButton>
+                           Disabled="@_noTradesSelected" OnClick="OpenUnHideDialog">Unhide</MudButton>
 
             </MudButtonGroup>
 
@@ -74,18 +74,18 @@
 
 @code {
 
-    private bool _areAccountsSelected = true;
     private bool _loading = true;
+    private bool _noTradesSelected = true;
 
     private MudTable<Trade> _table;
     private HashSet<Trade> _selectedItems;
 
     private void SelectionChanged(HashSet<Trade> selectedAccounts)
     {
-        _areAccountsSelected = selectedAccounts is null || selectedAccounts.Count == 0;
+        _noTradesSelected = selectedAccounts is null || selectedAccounts.Count == 0;
     }
 
-    private void OnRowClick(TableRowClickEventArgs<Trade> args)
+    private void OpenSelectedTrade(TableRowClickEventArgs<Trade> args)
     {
         NavigationManager.NavigateTo($"/trades/{args.Item.Id}");
     }
@@ -126,7 +126,8 @@
         // if OK button has been clicked on the modal performs batch unhide
         if (dialogResult.Cancelled is false)
         {
-            await TradeService.BatchSetVisibility(_table.SelectedItems.Select(x => x.Id), false);
+            await TradeService.BulkSetVisibility(_table.SelectedItems.Select(x => x.Id), false);
+            _selectedItems = new();
             await _table.ReloadServerData();
         }
     }

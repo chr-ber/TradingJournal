@@ -23,19 +23,20 @@ public class TradingAccountService : ClientServiceBase, ITradingAccountService
 
     public async Task LoadTradingAccounts(int pageNumber = 1, int pageSize = 10)
     {
+        // create a dictionary for all query parameters
         Dictionary<string, string> query = new()
         {
             ["pageNumber"] = pageNumber.ToString(),
             ["pageSize"] = pageSize.ToString(),
         };
 
+        // convert the query dictionary to an url encoded string
         var dictFormUrlEncoded = new FormUrlEncodedContent(query);
         var queryString = await dictFormUrlEncoded.ReadAsStringAsync();
 
         string json = await _http.GetStringAsync($"api/accounts?{queryString}");
 
-        var list = JsonSerializer.Deserialize<PaginatedList<TradingAccount>>(json, _jsonOptions);
-        List = list;
+        List = JsonSerializer.Deserialize<PaginatedList<TradingAccount>>(json, _jsonOptions);
     }
 
     public async Task DeleteTradingAccount(int id)
@@ -58,6 +59,7 @@ public class TradingAccountService : ClientServiceBase, ITradingAccountService
             Success = result.StatusCode == HttpStatusCode.OK,
         };
 
+        // deserialize fluent validation errors if request failed
         string validationErrors = string.Empty;
         if(result.StatusCode == HttpStatusCode.BadRequest)
         {

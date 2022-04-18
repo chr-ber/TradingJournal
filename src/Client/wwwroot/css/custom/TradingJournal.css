@@ -10,6 +10,10 @@
     border-right: 1px solid var(--mud-palette-primary);
 }
 
+.tj-ws-nowrap {
+    white-space: nowrap;
+}
+
 /* Overrule re coloring done by chrome auto fill*/
 input:-webkit-autofill,
 input:-webkit-autofill:hover,

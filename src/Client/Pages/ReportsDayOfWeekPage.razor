@@ -67,7 +67,7 @@
         _labels = _dailyReport.MonthStatistics.Select(x => x.DayOfWeek).ToArray();
 
         // set theme colors
-        _chartOptions = Theme.ReturnColorChartOptions();
+        _chartOptions = Theme.GetColorChartOptions();
 
         await base.OnInitializedAsync();
     }

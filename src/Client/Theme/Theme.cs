@@ -1,5 +1,5 @@
-﻿using MudBlazor;
-using TradingJournal.Domain.Enums;
+﻿using TradingJournal.Domain.Enums;
+using MudBlazor;
 
 namespace TradingJournal.Client.Theme;
 
@@ -63,7 +63,9 @@ public class Theme
         TableHover = "rgba(127,207,194,0.20)",
     };
 
-    public static ChartOptions ReturnColorChartOptions() => new ChartOptions() { ChartPalette = new[] { "#3ccdb6", "#a1366c", "#cda03c" } };
+    public static Color GetLoadingProgressColor() => Color.Primary;
+
+    public static ChartOptions GetColorChartOptions() => new ChartOptions() { ChartPalette = new[] { "#3ccdb6", "#a1366c", "#cda03c" } };
 
     public static Color GetAccountStatusColor(TradingAccountStatus status)
     {

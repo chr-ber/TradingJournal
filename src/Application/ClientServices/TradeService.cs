@@ -26,6 +26,7 @@ public class TradeService : ClientServiceBase, ITradeService
         IEnumerable<TradeStatus> includedStates = null,
         bool hidden = false)
     {
+        // create a dictionary for all query parameters
         Dictionary<string, string> query = new()
         {
             ["pageNumber"] = pageNumber.ToString(),
@@ -33,17 +34,18 @@ public class TradeService : ClientServiceBase, ITradeService
             ["hidden"] = hidden.ToString(),
         };
 
+        // if any states where specified add them
         if(includedStates != null)
             foreach(var state in includedStates)
                 query["includedStates"] = ((int)state).ToString();
 
+        // convert the query dictionary to an url encoded string
         var dictFormUrlEncoded = new FormUrlEncodedContent(query);
         var queryString = await dictFormUrlEncoded.ReadAsStringAsync();
 
         string json = await _http.GetStringAsync($"api/trades?{queryString}");
 
-        var list = JsonSerializer.Deserialize<PaginatedList<Trade>>(json, _jsonOptions);
-        PaginatedList = list;
+        PaginatedList = JsonSerializer.Deserialize<PaginatedList<Trade>>(json, _jsonOptions);
     }
 
     public async Task UpdateJournalFields(UpdateJournalingFieldsCommand command)
@@ -72,8 +74,7 @@ public class TradeService : ClientServiceBase, ITradeService
         return decimal.Parse(response);
     }
 
-
-    public async Task BatchSetVisibility(IEnumerable<int> ids, bool isHidden)
+    public async Task BulkSetVisibility(IEnumerable<int> ids, bool isHidden)
     {
         var command = new BatchSetTradeVisibilityCommand { Ids = ids, IsHidden = isHidden };
         var response = await _http.PutAsJsonAsync("api/trades/set-visibility", command);

@@ -63,7 +63,7 @@
         _labels = _monthReport.MonthStatistics.Select(x => x.Month).ToArray();
 
         // set theme colors
-        _chartOptions = Theme.ReturnColorChartOptions();
+        _chartOptions = Theme.GetColorChartOptions();
 
         await base.OnInitializedAsync();
     }

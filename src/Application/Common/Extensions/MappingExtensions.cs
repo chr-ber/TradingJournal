@@ -4,10 +4,10 @@ namespace TradingJournal.Application.Common.Extensions;
 
 public static class MappingExtensions
 {
-    // extension to allow any domain entity to be paginated
-    public static Task<PaginatedList<TDest>> PaginatedListAsync<TDest>(
-        this IQueryable<TDest> queryable, int selectedPage, int pageSize)
+    // extension to allow any domain entity to be queried with pagination
+    public static Task<PaginatedList<T1>> ToPaginatedListAsync<T1>(
+        this IQueryable<T1> queryable, int selectedPage, int pageSize)
     {
-        return PaginatedList<TDest>.CreateAsync(queryable, selectedPage, pageSize);
+        return PaginatedList<T1>.CreateAsync(queryable, selectedPage, pageSize);
     }
 }

@@ -1,10 +1,12 @@
 ﻿namespace TradingJournal.Domain.Common;
 
+// interface to be added to entities to support domain events
 public interface IHasDomainEvent
 {
     public List<DomainEvent> DomainEvents { get; set; }
 }
 
+// 
 public abstract class DomainEvent
 {
     protected DomainEvent()

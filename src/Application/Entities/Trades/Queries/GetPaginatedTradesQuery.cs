@@ -19,22 +19,21 @@ public class GetPaginatedTradesQuery : IRequest<PaginatedList<Trade>>
     public bool Hidden { get; set; }
 }
 
-public class GetPaginatedTradesQueryHandler
-    : IRequestHandler<GetPaginatedTradesQuery, PaginatedList<Trade>>
+public class GetPaginatedTradesQueryHandler : IRequestHandler<GetPaginatedTradesQuery, PaginatedList<Trade>>
 {
     private readonly IApplicationDbContext _context;
-    private readonly ICurrentUserService _userUtilityService;
+    private readonly ICurrentUserService _currentUserService;
 
     public GetPaginatedTradesQueryHandler(
         IApplicationDbContext context,
-        ICurrentUserService userUtilityService)
+        ICurrentUserService currentUserService)
     {
         _context = context;
-        _userUtilityService = userUtilityService;
+        _currentUserService = currentUserService;
     }
     public async Task<PaginatedList<Trade>> Handle(GetPaginatedTradesQuery request, CancellationToken cancellationToken)
     {
-        int userId = await _userUtilityService.GetUserId();
+        int userId = await _currentUserService.GetUserId();
 
         var response = _context.Trades
             .Include(x => x.TradingAccount)
@@ -45,6 +44,6 @@ public class GetPaginatedTradesQueryHandler
             .Where(x => request.IncludedStates != null ? request.IncludedStates.Contains(x.Status) : true)
             .OrderByDescending(x => x.OpenedAt);
 
-        return await response.PaginatedListAsync(request.PageNumber, request.PageSize);
+        return await response.ToPaginatedListAsync(request.PageNumber, request.PageSize);
     }
 }

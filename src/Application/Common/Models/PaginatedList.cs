@@ -6,13 +6,13 @@ namespace TradingJournal.Application.Common.Models;
 
 public class PaginatedList<T>
 {
-    public List<T> Items { get; set; }
+    public List<T> Items { get; init; }
 
-    public int SelectedPage { get; set; }
+    public int SelectedPage { get; init; }
 
-    public int TotalPages { get; set; }
+    public int TotalPages { get; init; }
 
-    public int TotalCount { get; set; }
+    public int TotalCount { get; init; }
 
     [JsonIgnore]
     public bool HasPreviousPage => SelectedPage > 1;
@@ -20,7 +20,7 @@ public class PaginatedList<T>
     [JsonIgnore]
     public bool HasNextPage => SelectedPage < TotalPages;
 
-    // constructor to be used for deserialization only
+    // constructor to be used for deserialization from json
     [JsonConstructor]
     public PaginatedList() { }
 
@@ -36,7 +36,7 @@ public class PaginatedList<T>
     {
         int total = await source.CountAsync();
 
-        // get the desired amount of rows from the database
+        // finalize the query and execute it
         List<T> items = await source
             .Skip((selectedPage - 1) * pageSize)
             .Take(pageSize)

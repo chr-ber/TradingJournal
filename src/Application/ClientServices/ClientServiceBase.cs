@@ -10,7 +10,8 @@ public class ClientServiceBase
     public ClientServiceBase()
     {
         // ignore case sensivity
-        // all api controllers provide names starting with lower case but properties start with higher case
+        // required as api controllers serialize properties to lower case
+        // but when desierializing they are by default expected to match pascal case naming convention
         _jsonOptions = new()
         {
             PropertyNameCaseInsensitive = true

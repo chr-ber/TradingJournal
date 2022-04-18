@@ -13,25 +13,24 @@ public class GetTradingAccountsWithPaginationQuery : IRequest<PaginatedList<Trad
     public int PageSize { get; set; } = 10;
 }
 
-public class GetTradingAccountsWithPaginationQueryHandler
-    : IRequestHandler<GetTradingAccountsWithPaginationQuery,PaginatedList<TradingAccount>>
+public class GetTradingAccountsWithPaginationQueryHandler : IRequestHandler<GetTradingAccountsWithPaginationQuery,PaginatedList<TradingAccount>>
 {
     private readonly IApplicationDbContext _context;
-    private readonly ICurrentUserService _userUtilityService;
+    private readonly ICurrentUserService _currentUserService;
 
     public GetTradingAccountsWithPaginationQueryHandler(
         IApplicationDbContext context,
-        ICurrentUserService userUtilityService)
+        ICurrentUserService currentUserService)
     {
         _context = context;
-        _userUtilityService = userUtilityService;
+        _currentUserService = currentUserService;
     }
     public async Task<PaginatedList<TradingAccount>> Handle(GetTradingAccountsWithPaginationQuery request, CancellationToken cancellationToken)
     {
-        int userId = await _userUtilityService.GetUserId();
+        int userId = await _currentUserService.GetUserId();
 
         return await _context.TradingAccounts
             .Where(x => x.UserId == userId)
-            .PaginatedListAsync(request.PageNumber, request.PageSize);
+            .ToPaginatedListAsync(request.PageNumber, request.PageSize);
     }
 }
