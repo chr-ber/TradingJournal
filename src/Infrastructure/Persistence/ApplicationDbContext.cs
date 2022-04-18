@@ -49,6 +49,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 
         var result = await base.SaveChangesAsync(cancellationToken);
 
+        // dispatch all unpublished events
         await DispatchEvents(events);
 
         return result;
@@ -58,7 +59,6 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
     {
         foreach (DomainEvent domainEvent in events)
         {
-            // set the event as published
             domainEvent.IsPublished = true;
             await _domainEventService.Publish(domainEvent);
         }

@@ -23,12 +23,12 @@ public class ApplicationDbContextSeed
                 {
                     // apply pending migrations, creates database if it does not exist
                     context.Database.Migrate();
+                }
 
-                    // seed sample data if enabled in appsettings.json
-                    if (seedSampleData)
-                    {
-                        await SeedSampleData(context);
-                    }
+                // seed sample data if enabled in appsettings.json
+                if (seedSampleData)
+                {
+                    await SeedSampleData(context);
                 }
             }
             catch (Exception ex)
