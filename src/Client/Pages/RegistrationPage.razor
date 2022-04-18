@@ -26,15 +26,21 @@
             <MudTextField Label="Password"
                           @bind-Value="@_model.Password"
                           Required="true" For="@(() => _model.Password)"
-                          InputType="InputType.Password"
-                          HelperText="Choose a strong password" />
+                          HelperText="Choose a strong password"
+                                                    InputType="@_passwordInput"
+                          Adornment="Adornment.End"
+                          AdornmentIcon="@_passwordInputIcon"
+                          OnAdornmentClick="TogglePasswordVisibility"/>
 
             <MudTextField Label="Confirm Password"
                           @bind-Value="@_model.ConfirmPassword"
                           Required="true"
                           For="@(() => _model.ConfirmPassword)"
-                          InputType="InputType.Password"
-                          HelperText="Repeat the password" />
+                          HelperText="Repeat the password"
+                                                    InputType="@_passwordInput"
+                          Adornment="Adornment.End"
+                          AdornmentIcon="@_passwordInputIcon"
+                          OnAdornmentClick="TogglePasswordVisibility"/>
 
             <div class="d-flex align-center justify-space-between mt-6">
 
@@ -66,6 +72,26 @@
     private UserRegistration _model = new();
 
     private string _bottomErrorField;
+
+    private bool _passwordVisibility;
+    private InputType _passwordInput = InputType.Password;
+    private string _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void TogglePasswordVisibility()
+    {
+        @if (_passwordVisibility)
+        {
+            _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
+            _passwordInput = InputType.Password;
+        }
+        else
+        {
+            _passwordInputIcon = Icons.Material.Filled.Visibility;
+            _passwordInput = InputType.Text;
+        }
+
+        _passwordVisibility = !_passwordVisibility;
+    }
 
     private async Task OpenDialog()
     {

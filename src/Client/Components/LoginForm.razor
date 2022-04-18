@@ -4,7 +4,7 @@
 <MudText Typo="Typo.h3">Login</MudText>
 
 <MudGrid>
-    <MudItem xs="12" sm="8" lg="6" xl="4">
+    <MudItem xs="12" sm="6" lg="4" xl="4">
 
         <EditForm Model="_model" OnValidSubmit="HandleLogin">
             <DataAnnotationsValidator />
@@ -17,12 +17,15 @@
 
             <MudTextField Label="Password"
                           For="@(() => _model.Password)"
-                          InputType="InputType.Password"
-                          @bind-Value="_model.Password" />
+                          InputType="@_passwordInput"
+                          Adornment="Adornment.End"
+                          AdornmentIcon="@_passwordInputIcon"
+                          @bind-Value="_model.Password"
+                          OnAdornmentClick="TogglePasswordVisibility" />
 
-            <div class="d-flex align-center justify-space-between mt-6">
+            <div class="d-flex justify-end flex-grow-1 gap-4 mt-6">
 
-                <MudItem xs="12" sm="5">
+                <MudItem xs="12">
                     <MudText Typo="Typo.subtitle2" Color="Color.Error">@_bottomErrorField</MudText>
                 </MudItem>
 
@@ -32,13 +35,13 @@
                         <MudButton Variant="Variant.Outlined"
                                    Color="Color.Primary"
                                    Disabled="true"
-                                   Class="ml-auto">Forgot Password</MudButton>
+                                   Class="ml-auto tj-ws-nowrap">Forgot Password</MudButton>
                     </MudTooltip>
 
                     <MudButton ButtonType="ButtonType.Submit"
                                Variant="Variant.Filled"
                                Color="Color.Primary"
-                               Class="ml-auto">Log In</MudButton>
+                               Class="ml-auto tj-ws-nowrap">Log In</MudButton>
 
                 </MudButtonGroup>
 
@@ -50,9 +53,29 @@
 </MudGrid>
 
 @code {
-    private UserLogin _model = new();
 
+    private UserLogin _model = new();
     private string _bottomErrorField;
+
+    private bool _passwordVisibility;
+    private InputType _passwordInput = InputType.Password;
+    private string _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
+
+    void TogglePasswordVisibility()
+    {
+        @if (_passwordVisibility)
+        {
+            _passwordInputIcon = Icons.Material.Filled.VisibilityOff;
+            _passwordInput = InputType.Password;
+        }
+        else
+        {
+            _passwordInputIcon = Icons.Material.Filled.Visibility;
+            _passwordInput = InputType.Text;
+        }
+
+        _passwordVisibility = !_passwordVisibility;
+    }
 
     private async Task HandleLogin()
     {
