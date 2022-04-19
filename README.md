@@ -12,10 +12,6 @@ The goal of the application is to make journaling crypto derivative trades as si
 
 This is achieved by allowing the users to add read only api keys from the trading platform [ByBit.com](https://bybit.com) to the application. Once added a background service will create websocket connections and import trades with only a few milliseconds delay.
 
-ByBit Websocket Endpooints:
-* [USDT Perpetual](https://bybit-exchange.github.io/docs/linear/#t-websocket)
-* [Inverse Perpetual](https://bybit-exchange.github.io/docs/inverse/#t-websocket)
-
 ### Architecture
 
 The design of the application is trying to follow the principles provided by the [Clean Architecture Solution Template](https://github.com/jasontaylordev/CleanArchitecture).
@@ -28,6 +24,20 @@ The design of the application is trying to follow the principles provided by the
 * [Entity Framework Core 6](https://docs.microsoft.com/en-us/ef/core/)
 * [MediatR](https://github.com/jbogard/MediatR)
 * [FluentValidation](https://fluentvalidation.net/)
+
+## Live Demo
+
+Link: [https://tradingjournal.chrisberger.dev](https://tradingjournal.chrisberger.dev/login?Username=Trader1@example.com&Password=Trader1@example.com)
+
+The live demo is using the [ByBit TestNet](https://testnet.bybit.com/). Feel free to add api credentials on the accounts page to test live trade import.
+
+Please note that all data of the demo site gets reset daily at 24:00 UTC.
+
+## Screenshots
+
+
+
+
 
 
 
