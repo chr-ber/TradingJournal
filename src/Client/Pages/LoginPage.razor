@@ -10,6 +10,20 @@
         <p>You are already logged in.</p>
     </Authorized>
     <NotAuthorized>
-        <LoginForm/>
+        <LoginForm Username="@_username" Password="@_password" />
     </NotAuthorized>
 </AuthorizeView>
+
+@code {
+
+    private string _username;
+    private string _password;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        NavigationManager.TryGetQueryString<string>("Username", out _username);
+        NavigationManager.TryGetQueryString<string>("Password", out _password);
+    }
+}
