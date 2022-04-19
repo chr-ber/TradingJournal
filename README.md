@@ -1,4 +1,4 @@
-TradingJournal is a Single Page Application fully written in C#.
+**TradingJournal** is a **Single Page Application** fully written in C#.
 
 ## Overview
 
@@ -35,7 +35,11 @@ Please note that all data of the demo site gets reset daily at 24:00 UTC.
 
 ## Screenshots
 
+![Dashboard](https://raw.githubusercontent.com/chr-ber/TradingJournal/master/docs/screenshots/dashboard.png)
 
+![Trade Details](https://raw.githubusercontent.com/chr-ber/TradingJournal/master/docs/screenshots/trade-details.png)
+
+![Accounts](https://raw.githubusercontent.com/chr-ber/TradingJournal/master/docs/screenshots/accounts.png)
 
 
 
