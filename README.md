@@ -24,6 +24,7 @@ The design of the application is trying to follow the principles provided by the
 * [Entity Framework Core 6](https://docs.microsoft.com/en-us/ef/core/)
 * [MediatR](https://github.com/jbogard/MediatR)
 * [FluentValidation](https://fluentvalidation.net/)
+* [MudBlazor](https://mudblazor.com/)
 
 ## Live Demo
 
