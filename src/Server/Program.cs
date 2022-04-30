@@ -2,6 +2,7 @@ using TradingJournal.Infrastructure.Server.DependencyInjection;
 using TradingJournal.Application.DependencyInjection;
 using TradingJournal.Server.DependencyInjection;
 using FluentValidation.AspNetCore;
+
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -14,7 +15,7 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddHttpContextAccessor();
 
-// add fluent validation, used for client side validation of models
+// fluent validation added to to server startup instead of application project due to build errors for client project
 builder.Services.AddFluentValidation();
 // Add dependencies from Infrastructure library
 builder.Services.AddServerInfrastructure(builder.Configuration);
