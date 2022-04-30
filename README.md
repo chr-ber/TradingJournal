@@ -1,4 +1,7 @@
-**TradingJournal** is a **Single Page Application** fully written in C#.
+# TradingJournal
+**Single Page Application** fully written in C#.
+
+> :warning: **This branch is stale** - If you would like to contribute or fork this repo, please check out the [master](https://github.com/chr-ber/TradingJournal/tree/master) branch!
 
 ## Overview
 
@@ -36,11 +39,11 @@ Please note that all data of the demo site gets reset daily at 24:00 UTC.
 
 ## Screenshots
 
-![Dashboard](https://raw.githubusercontent.com/chr-ber/TradingJournal/master/docs/screenshots/dashboard.png)
+![Dashboard](https://raw.githubusercontent.com/chr-ber/TradingJournal/training-final-assignment/docs/screenshots/dashboard.png)
 
-![Trade Details](https://raw.githubusercontent.com/chr-ber/TradingJournal/master/docs/screenshots/trade-details.png)
+![Trade Details](https://raw.githubusercontent.com/chr-ber/TradingJournal/training-final-assignment/docs/screenshots/trade-details.png)
 
-![Accounts](https://raw.githubusercontent.com/chr-ber/TradingJournal/master/docs/screenshots/accounts.png)
+![Accounts](https://raw.githubusercontent.com/chr-ber/TradingJournal/training-final-assignment/docs/screenshots/accounts.png)
 
 ## Getting Started
 
