@@ -1,16 +1,16 @@
-**TradingJournal** is a **Single Page Application** fully written in C#.
-
-## Overview
+## TradingJournal
 
 ### About
 
-The application was developed as the final project for my [Training as a certified Software Developer C#](https://www.wifiwien.at/kurs/18196x-ausbildung-zum-geprueften-software-developer-c)
+**TradingJournal** is a **Single Page Application** fully written in C#.
+
+The application was developed as part of the final assignment to complete the 6-month educational program [Training as a certified Software Developer C#](https://www.wifiwien.at/kurs/18196x-ausbildung-zum-geprueften-software-developer-c) at [WIFI Vienna](https://www.wifiwien.at/).
 
 ### Project Goal
 
 The goal of the application is to make journaling crypto derivative trades as simple and responsive as possible.
 
-This is achieved by allowing the users to add read only api keys from the trading platform [ByBit.com](https://bybit.com) to the application. Once added a background service will create websocket connections and import trades with only a few milliseconds delay.
+This is achieved by allowing the users to add read only API keys from the trading platform [ByBit.com](https://bybit.com) to the application. Once added a background service will create WebSocket connections to the  trading platform. The trades are imported with only a few milliseconds delay and allow immediate journaling and access to detailed statistics without any manual synchronization or delay.
 
 ### Architecture
 
@@ -26,7 +26,7 @@ The design of the application is trying to follow the principles provided by the
 * [FluentValidation](https://fluentvalidation.net/)
 * [MudBlazor](https://mudblazor.com/)
 
-## Live Demo
+### Live Demo
 
 Link: [https://tradingjournal.chrisberger.dev](https://tradingjournal.chrisberger.dev/login?Username=Trader1@example.com&Password=Trader1@example.com)
 
@@ -34,7 +34,7 @@ The live demo is using the [ByBit TestNet](https://testnet.bybit.com/). Feel fre
 
 Please note that all data of the demo site gets reset daily at 24:00 UTC.
 
-## Screenshots
+### Screenshots
 
 ![Dashboard](https://raw.githubusercontent.com/chr-ber/TradingJournal/master/docs/screenshots/dashboard.png)
 
@@ -42,12 +42,12 @@ Please note that all data of the demo site gets reset daily at 24:00 UTC.
 
 ![Accounts](https://raw.githubusercontent.com/chr-ber/TradingJournal/master/docs/screenshots/accounts.png)
 
-## Getting Started
+### Getting Started
 
 1. Install the latest [.NET 6 SDK](https://dotnet.microsoft.com/download/dotnet/6.0)
 2. Navigate to `src/Server` and run `dotnet run` to launch the back end (ASP.NET Core Web API)
 
-### Database Configuration
+#### Database Configuration
 
 The application is configured to use an in-memory database by default. This ensures that all users will be able to run the solution without needing to set up additional infrastructure (e.g. SQL Server).
 
@@ -61,7 +61,7 @@ Verify that the **DefaultConnection** connection string within **appsettings.jso
 
 When you run the application the database will be automatically created (if necessary) and the latest migrations will be applied.
 
-### Database Migrations
+#### Database Migrations
 
 To use `dotnet-ef` for your migrations please add the following flags to your command (values assume you are executing from **repository root**)
 
