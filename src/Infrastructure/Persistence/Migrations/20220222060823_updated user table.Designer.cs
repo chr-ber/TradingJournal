@@ -5,11 +5,11 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TradingJournal.Infrastructure.Server.Persistence;
+using TradingJournal.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace TradingJournal.Infrastructure.Server.Persistence.Migrations
+namespace TradingJournal.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20220222060823_updated user table")]

@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace TradingJournal.Infrastructure.Server.Persistence;
+namespace TradingJournal.Infrastructure.Persistence;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {

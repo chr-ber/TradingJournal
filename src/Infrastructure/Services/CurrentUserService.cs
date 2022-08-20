@@ -1,7 +1,7 @@
 ﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
 
-namespace TradingJournal.Infrastructure.Server.Services;
+namespace TradingJournal.Infrastructure.Services;
 
 public class CurrentUserService : ICurrentUserService
 {
@@ -9,8 +9,8 @@ public class CurrentUserService : ICurrentUserService
    private readonly IHttpContextAccessor _httpContextAccessor;
    public CurrentUserService(IApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
    {
-      _context = context;
-      _httpContextAccessor = httpContextAccessor;
+      _context = context ?? throw new ArgumentNullException(nameof(context));
+      _httpContextAccessor = httpContextAccessor ?? throw new ArgumentNullException(nameof(httpContextAccessor));
    }
 
    public async Task<User> GetUser()

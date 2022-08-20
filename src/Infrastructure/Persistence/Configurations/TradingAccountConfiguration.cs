@@ -1,4 +1,4 @@
-﻿namespace TradingJournal.Infrastructure.Server.Persistence.Configurations;
+﻿namespace TradingJournal.Infrastructure.Persistence.Configurations;
 
 public class TradingAccountConfiguration : IEntityTypeConfiguration<TradingAccount>
 {

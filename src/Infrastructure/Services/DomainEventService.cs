@@ -1,4 +1,4 @@
-﻿namespace TradingJournal.Infrastructure.Server.Services;
+﻿namespace TradingJournal.Infrastructure.Services;
 
 public partial class DomainEventService : IDomainEventService
 {

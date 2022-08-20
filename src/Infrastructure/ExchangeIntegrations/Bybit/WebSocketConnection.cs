@@ -1,4 +1,4 @@
-﻿namespace TradingJournal.Infrastructure.Server.ExchangeIntegrations.Bybit;
+﻿namespace TradingJournal.Infrastructure.ExchangeIntegrations.Bybit;
 
 public class WebSocketConnection : IDisposable
 {

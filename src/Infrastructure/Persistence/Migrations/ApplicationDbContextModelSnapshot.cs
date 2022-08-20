@@ -4,11 +4,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TradingJournal.Infrastructure.Server.Persistence;
+using TradingJournal.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace TradingJournal.Infrastructure.Server.Persistence.Migrations
+namespace TradingJournal.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot

@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace TradingJournal.Infrastructure.Server.Persistence.Migrations;
+namespace TradingJournal.Infrastructure.Persistence.Migrations;
 
 public partial class changeddecimalprecision : Migration
 {

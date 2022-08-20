@@ -1,4 +1,4 @@
-﻿namespace TradingJournal.Infrastructure.Server.Services;
+﻿namespace TradingJournal.Infrastructure.Services;
 
 public class AccountSynchronizationService : BackgroundService, IAccountSynchronizationService
 {
@@ -19,9 +19,9 @@ public class AccountSynchronizationService : BackgroundService, IAccountSynchron
        IConfiguration configuration,
        ILogger<AccountSynchronizationService> logger)
    {
-      _services = services;
-      _configuration = configuration;
-      _logger = logger;
+      _services = services ?? throw new ArgumentNullException(nameof(services));
+      _configuration = configuration ?? throw new ArgumentNullException(nameof(configuration));
+      _logger = logger ?? throw new ArgumentNullException(nameof(logger));
    }
 
    public Task DeactivateAccount(TradingAccount account)

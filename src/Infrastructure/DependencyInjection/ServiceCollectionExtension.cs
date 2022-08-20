@@ -1,4 +1,4 @@
-﻿namespace TradingJournal.Infrastructure.Server.DependencyInjection;
+﻿namespace TradingJournal.Infrastructure.DependencyInjection;
 
 public static class ServiceCollectionExtension
 {

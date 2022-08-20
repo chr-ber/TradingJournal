@@ -1,4 +1,4 @@
-﻿namespace TradingJournal.Infrastructure.Server.ExchangeIntegrations.Bybit.Enums;
+﻿namespace TradingJournal.Infrastructure.ExchangeIntegrations.Bybit.Enums;
 
 public enum Network
 {

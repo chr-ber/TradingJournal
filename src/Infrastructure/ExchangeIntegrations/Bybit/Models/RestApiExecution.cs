@@ -1,4 +1,4 @@
-﻿namespace TradingJournal.Infrastructure.Server.ExchangeIntegrations.Bybit.Models;
+﻿namespace TradingJournal.Infrastructure.ExchangeIntegrations.Bybit.Models;
 
 public class RestApiExecution
 {
