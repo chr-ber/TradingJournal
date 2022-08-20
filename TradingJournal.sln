@@ -15,18 +15,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Infrastructure", "src\Infra
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "src\Application\Application.csproj", "{F6B47DF4-39AF-404F-AC71-D2F247876FF8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{9492C58F-378A-48B5-810A-F2381C99CA33}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CF7C2F90-9557-400C-BCF4-ACF7748CC94B}"
 	ProjectSection(SolutionItems) = preProject
-		docs\database-commands.txt = docs\database-commands.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "bybit-json-examples", "bybit-json-examples", "{5D7EAD3C-FF53-4BF0-9E1C-5014506C9B12}"
-	ProjectSection(SolutionItems) = preProject
-		docs\bybit-json-examples\restapi-execution-open-close-long-position.json = docs\bybit-json-examples\restapi-execution-open-close-long-position.json
-		docs\bybit-json-examples\websocket-execution-close-long-position.json.json = docs\bybit-json-examples\websocket-execution-close-long-position.json.json
-		docs\bybit-json-examples\websocket-execution-open-long-position.json = docs\bybit-json-examples\websocket-execution-open-long-position.json
-		docs\bybit-json-examples\websocket-execution-open-short-position.json = docs\bybit-json-examples\websocket-execution-open-short-position.json
-		docs\bybit-json-examples\websocket-position-open-short-position.json = docs\bybit-json-examples\websocket-position-open-short-position.json
+		.editorconfig = .editorconfig
+		README.md = README.md
+		LICENSE = LICENSE
 	EndProjectSection
 EndProject
 Global
@@ -65,7 +58,6 @@ Global
 		{FFF437ED-1B9E-4218-9F21-9B9E7E08BCDF} = {DA6EE835-29C9-4D25-8DD8-DD746B4FFEA7}
 		{4DAC1D2D-147B-469A-B233-7BD3268B445B} = {DA6EE835-29C9-4D25-8DD8-DD746B4FFEA7}
 		{F6B47DF4-39AF-404F-AC71-D2F247876FF8} = {DA6EE835-29C9-4D25-8DD8-DD746B4FFEA7}
-		{5D7EAD3C-FF53-4BF0-9E1C-5014506C9B12} = {9492C58F-378A-48B5-810A-F2381C99CA33}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {BA0F5941-7DE0-4D27-A7D2-08A7CC54CCA3}

@@ -2,5 +2,5 @@
 
 public class UserPreferences
 {
-    public bool UseDarkMode { get; set; }
+   public bool UseDarkMode { get; set; }
 }

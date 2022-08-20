@@ -2,5 +2,5 @@
 
 public enum OrderStatus
 {
-    Created, Rejected, New, PartiallyFilled, Filled, Cancelled, PendingCancel
+   Created, Rejected, New, PartiallyFilled, Filled, Cancelled, PendingCancel
 }

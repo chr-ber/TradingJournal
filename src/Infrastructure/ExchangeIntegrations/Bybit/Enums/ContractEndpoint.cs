@@ -2,5 +2,5 @@
 
 public enum ContractEndpoint
 {
-    InversePerpetual, USDTPerpetual
+   InversePerpetual, USDTPerpetual
 }

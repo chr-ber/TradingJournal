@@ -2,5 +2,5 @@
 
 public enum TradeStatus
 {
-    Open, Win, Loss, Breakeven
+   Open, Win, Loss, Breakeven
 }

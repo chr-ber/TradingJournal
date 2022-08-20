@@ -2,6 +2,6 @@
 
 public static class NumberFormatExtension
 {
-    // extension to change the format of all decimals at one place
-    public static string ToFormatedString(this decimal number) => $"{number:0.00}";
+   // extension to change the format of all decimals at one place
+   public static string ToFormatedString(this decimal number) => $"{number:0.00}";
 }

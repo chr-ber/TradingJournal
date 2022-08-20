@@ -1,0 +1,15 @@
+﻿global using System.Net.Http.Json;
+global using System.Text.Json;
+global using Blazored.LocalStorage;
+global using Microsoft.AspNetCore.Components.Authorization;
+global using Microsoft.AspNetCore.Components.Web;
+global using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+global using MudBlazor;
+global using MudBlazor.Services;
+global using TradingJournal.Application.Common.Interfaces;
+global using TradingJournal.Application.Common.Models;
+global using TradingJournal.Application.DependencyInjection;
+global using TradingJournal.Client;
+global using TradingJournal.Client.Authentication;
+global using TradingJournal.Client.DependencyInjection;
+global using TradingJournal.Domain.Enums;

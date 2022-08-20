@@ -1,0 +1,35 @@
+// Global using directives
+
+global using System.Collections.Concurrent;
+global using System.ComponentModel.DataAnnotations;
+global using System.Globalization;
+global using System.Net;
+global using System.Net.Http.Json;
+global using System.Reflection;
+global using System.Text;
+global using System.Text.Json;
+global using System.Text.Json.Serialization;
+global using Blazored.LocalStorage;
+global using FluentValidation;
+global using MediatR;
+global using Microsoft.AspNetCore.Components;
+global using Microsoft.AspNetCore.WebUtilities;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using MudBlazor;
+global using TradingJournal.Application.ClientServices;
+global using TradingJournal.Application.Common.Exceptions;
+global using TradingJournal.Application.Common.Extensions;
+global using TradingJournal.Application.Common.Interfaces;
+global using TradingJournal.Application.Common.Models;
+global using TradingJournal.Application.Entities.Accounts.Commands.ChangeTradingAccountState;
+global using TradingJournal.Application.Entities.Accounts.Commands.CreateTradingAccount;
+global using TradingJournal.Application.Entities.Reports.Queries.GetDailyReport;
+global using TradingJournal.Application.Entities.Reports.Queries.GetMonthReportQuery;
+global using TradingJournal.Application.Entities.Trades.Commands.HideTrade;
+global using TradingJournal.Application.Entities.Trades.Commands.UpdateJournalingFields;
+global using TradingJournal.Domain.Common;
+global using TradingJournal.Domain.Entities;
+global using TradingJournal.Domain.Enums;
+global using TradingJournal.Domain.Events;

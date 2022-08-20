@@ -2,5 +2,5 @@
 
 public enum TradeSide
 {
-    Long, Short
+   Long, Short
 }

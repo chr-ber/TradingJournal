@@ -1,29 +1,27 @@
-﻿using TradingJournal.Application.Common.Interfaces;
-using TradingJournal.Domain.Entities;
+﻿using System.Security.Claims;
 using Microsoft.AspNetCore.Http;
-using System.Security.Claims;
 
 namespace TradingJournal.Infrastructure.Server.Services;
 
 public class CurrentUserService : ICurrentUserService
 {
-    private readonly IApplicationDbContext _context;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    public CurrentUserService(IApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
-    {
-        _context = context;
-        _httpContextAccessor = httpContextAccessor;
-    }
+   private readonly IApplicationDbContext _context;
+   private readonly IHttpContextAccessor _httpContextAccessor;
+   public CurrentUserService(IApplicationDbContext context, IHttpContextAccessor httpContextAccessor)
+   {
+      _context = context;
+      _httpContextAccessor = httpContextAccessor;
+   }
 
-    public async Task<User> GetUser()
-    {
-        int userId = await GetUserId();
-        return await _context.Users.FindAsync(userId);
-    }
+   public async Task<User> GetUser()
+   {
+      var userId = await GetUserId();
+      return await _context.Users.FindAsync(userId);
+   }
 
-    public Task<int> GetUserId()
-    {
-        string nameIdentifier = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
-        return Task.FromResult(int.Parse(nameIdentifier));
-    }
+   public Task<int> GetUserId()
+   {
+      var nameIdentifier = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+      return Task.FromResult(int.Parse(nameIdentifier));
+   }
 }

@@ -1,10 +1,3 @@
-using TradingJournal.Client.DependencyInjection;
-using TradingJournal.Application.DependencyInjection;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.AspNetCore.Components.Web;
-using TradingJournal.Client;
-using MudBlazor.Services;
-
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");

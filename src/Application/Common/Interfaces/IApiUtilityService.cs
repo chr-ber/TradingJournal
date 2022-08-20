@@ -2,5 +2,5 @@
 
 public interface IApiUtilityService
 {
-    Task<bool> IsReadOnlyAPICredentials(string key, string secret);
+   Task<bool> IsReadOnlyAPICredentials(string key, string secret);
 }

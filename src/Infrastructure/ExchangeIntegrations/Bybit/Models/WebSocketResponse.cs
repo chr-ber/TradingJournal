@@ -2,9 +2,9 @@
 
 public class WebSocketResponse<T>
 {
-    public int ret_code { get; set; }
+   public int ret_code { get; set; }
 
-    public string ret_msg { get; set; }
+   public string ret_msg { get; set; }
 
-    public T result { get; set; }
+   public T result { get; set; }
 }

@@ -1,14 +1,11 @@
-﻿using TradingJournal.Domain.Common;
-using TradingJournal.Domain.Entities;
-
-namespace TradingJournal.Domain.Events;
+﻿namespace TradingJournal.Domain.Events;
 
 public class TradingAccountActivated : DomainEvent
 {
-    public TradingAccount Account { get; set; }
+   public TradingAccount Account { get; set; }
 
-    public TradingAccountActivated(TradingAccount account)
-    {
-        Account = account;
-    }
+   public TradingAccountActivated(TradingAccount account)
+   {
+      Account = account;
+   }
 }

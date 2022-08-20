@@ -1,18 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
-using TradingJournal.Domain.Entities;
-
-namespace TradingJournal.Infrastructure.Server.Persistence.Configurations;
+﻿namespace TradingJournal.Infrastructure.Server.Persistence.Configurations;
 
 public class TradeConfiguration : IEntityTypeConfiguration<Trade>
 {
-    public void Configure(EntityTypeBuilder<Trade> builder)
-    {
-        builder.HasKey(x => x.Id);
+   public void Configure(EntityTypeBuilder<Trade> builder)
+   {
+      builder.HasKey(x => x.Id);
 
-        builder.Property(x => x.Notes)
-            .HasMaxLength(512);
+      builder.Property(x => x.Notes)
+          .HasMaxLength(512);
 
-        // all decimals are configured via ApplicationDbContext.ConfigureConventions()
-    }
+      // all decimals are configured via ApplicationDbContext.ConfigureConventions()
+   }
 }

@@ -1,49 +1,44 @@
-﻿using TradingJournal.Application.Common.Interfaces;
-using TradingJournal.Domain.Entities;
-using TradingJournal.Domain.Events;
-using MediatR;
-
-namespace TradingJournal.Application.Entities.Accounts.Commands.CreateTradingAccount;
+﻿namespace TradingJournal.Application.Entities.Accounts.Commands.CreateTradingAccount;
 
 public class CreateTradingAccountCommand : IRequest<int>
 {
-    public string Name { get; set; }
+   public string Name { get; set; }
 
-    public string APIKey { get; set; }
+   public string APIKey { get; set; }
 
-    public string APISecret { get; set; }
+   public string APISecret { get; set; }
 
 }
 
 public class CreateTradingAccountCommandHandler : IRequestHandler<CreateTradingAccountCommand, int>
 {
-    private readonly IApplicationDbContext _context;
-    private readonly ICurrentUserService _currentUserService;
+   private readonly IApplicationDbContext _context;
+   private readonly ICurrentUserService _currentUserService;
 
-    public CreateTradingAccountCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
-    {
-        _context = context;
-        _currentUserService = currentUserService;
-    }
+   public CreateTradingAccountCommandHandler(IApplicationDbContext context, ICurrentUserService currentUserService)
+   {
+      _context = context;
+      _currentUserService = currentUserService;
+   }
 
-    public async Task<int> Handle(CreateTradingAccountCommand request, CancellationToken cancellationToken)
-    {
-        User user = await _currentUserService.GetUser();
+   public async Task<int> Handle(CreateTradingAccountCommand request, CancellationToken cancellationToken)
+   {
+      var user = await _currentUserService.GetUser();
 
-        TradingAccount entity = new()
-        {
-            Name = request.Name,
-            APIKey = request.APIKey,
-            APISecret = request.APISecret,
-            User = user,
-        };
+      TradingAccount entity = new()
+      {
+         Name = request.Name,
+         APIKey = request.APIKey,
+         APISecret = request.APISecret,
+         User = user,
+      };
 
-        entity.DomainEvents.Add(new TradingAccountActivated(entity));
+      entity.DomainEvents.Add(new TradingAccountActivated(entity));
 
-        _context.TradingAccounts.Add(entity);
+      _context.TradingAccounts.Add(entity);
 
-        await _context.SaveChangesAsync(cancellationToken);
+      await _context.SaveChangesAsync(cancellationToken);
 
-        return entity.Id;
-    }
+      return entity.Id;
+   }
 }

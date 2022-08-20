@@ -1,19 +1,16 @@
-﻿using Microsoft.EntityFrameworkCore;
-using TradingJournal.Domain.Entities;
-
-namespace TradingJournal.Application.Common.Interfaces;
+﻿namespace TradingJournal.Application.Common.Interfaces;
 
 public interface IApplicationDbContext : IDisposable
 {
-    DbSet<User> Users { get; set; }
+   DbSet<User> Users { get; set; }
 
-    DbSet<TradingAccount> TradingAccounts { get; set; }
+   DbSet<TradingAccount> TradingAccounts { get; set; }
 
-    DbSet<Execution> Executions { get; set; }
+   DbSet<Execution> Executions { get; set; }
 
-    DbSet<Symbol> Symbols { get; set; }
+   DbSet<Symbol> Symbols { get; set; }
 
-    DbSet<Trade> Trades { get; set; }
+   DbSet<Trade> Trades { get; set; }
 
-    Task<int> SaveChangesAsync(CancellationToken cancellationToken);
+   Task<int> SaveChangesAsync(CancellationToken cancellationToken);
 }

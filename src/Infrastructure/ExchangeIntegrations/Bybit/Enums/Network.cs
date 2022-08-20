@@ -2,5 +2,5 @@
 
 public enum Network
 {
-    MainNet, TestNet
+   MainNet, TestNet
 }
